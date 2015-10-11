@@ -1,55 +1,85 @@
+import java.security.Principle;
+import javax.security.auth.Subject;
+import java.util.UUID;
+import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
+import javax.naming.NameAlreadyBoundException;
+import Settings;
 
 
-public class People {
-
-	protected final String firstName;
-	protected final String lastName;
-	protected final String userName;
-	protected String passHash;
+/// How to instantiate a Customer
+// new Subject(false, new Vector<Principle> {new User(username, Name(firstName, lastName)), new Customer()}, {}, new Vector<PassHash> {PassHash(passHash)});
 
 
-	public People(String firstName , String lastName, String userName, String password)
-	{
-		
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.userName = userName;
-		this.passHash = password;
-	}
-
-
-	public String getFirstName()
-	{
-		
-		return firstName;
-	}
-	
-	public String getLastName()
-	{
-	
-		return lastName;
-	}
-	
-	public String getUserName()
-	{
-		
-		return userName;
-	}
-	
-	public String getPassHash()
-	{
-		return passHash;
-	}
-	
-	public void setPassHash(String passHash)
-	{
-		this.passHash = passHash;
-	}
-
-	
-	
+public final class Name
+{
+    private String firstName;
+    private String lastName;
+    public String getFirstName()
+    {
+	return firstName;
+    }
+    public String getLastName()
+    {	
+	return lastName;
+    }
+    public Name(String firstName, String lastName)
+    {
+	this.firstName = firstName;
+	this.lastName = lastName;
+    }
 }
 
+public final class User extends Principle
+{
+    private final String username;
+    private Name name; /// Hide me behind a GuardObject
+    private final UUID uuid;
+    private static final UUID_Generator = new UUID_Generator(UUID_Generator.generateUUID(new UUID(),Settings.getSystemName()), "User");
+    private static ConcurrentHashMap<UUID, User> userDB;
 
+    public String getUsername()
+    {
+	return username;
+    }
+    public getName(){return getUsername();}
+    public UUID getUUID()
+    {
+	return uuid;
+    }
 
+    public boolean equals(Object another)
+    {
+	return (this.getUUID().equals(another.getUUID()));
+    }
 
+    public User(String username, Name name) throws NameAlreadyBoundException
+    {
+	this.name = name;
+	this.username = username;
+	uuid = UUID.randomUUID();
+	if (userDB.containsKey(uuid))
+	    throw NameAlreadyBoundException;
+
+	userDB.put(uuid, this);
+    }
+}
+
+public final class Employee extends Principle{}
+
+public final class Manager extends Principle{}
+
+public final class Customer extends Principle{}
+
+public final class PassHash
+{
+    private byte[] passHash;
+    public byte[] getPassHash()
+    {
+	return passHash;
+    }
+    public PassHash(byte[] passHash)
+    {
+	this.passHash = passHash;
+    }
+}
