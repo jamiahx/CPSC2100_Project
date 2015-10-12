@@ -19,15 +19,15 @@
  */
 
 import java.security.Principle;
-import javax.security.auth.Subject;
 import java.util.UUID;
-import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.naming.NameAlreadyBoundException;
 import Settings;
 
 
 /// How to instantiate a Customer
+// import javax.security.auth.Subject;
+// import java.util.Vector;
 // new Subject(false, new Vector<Principle> {new User(username, Name(firstName, lastName)), new Customer()}, {}, new Vector<PassHash> {PassHash(passHash)});
 
 
