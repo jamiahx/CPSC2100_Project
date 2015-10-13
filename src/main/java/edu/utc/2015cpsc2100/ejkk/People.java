@@ -22,7 +22,6 @@ import java.security.Principle;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.naming.NameAlreadyBoundException;
-import Settings;
 
 
 /// How to instantiate a Customer
@@ -55,14 +54,14 @@ public final class User extends Principle
     private final String username;
     private Name name; /// Hide me behind a GuardObject
     private final UUID uuid;
-    private static final UUID_Generator = new UUID_Generator(UUID_Generator.generateUUID(new UUID(),Settings.getSystemName()), "User");
+    private static final UUID_Generator user_UUID_generator = new UUID_Generator(UUID_Generator.generateUUID(new UUID(),Settings.getSystemName()), "User");
     private static ConcurrentHashMap<UUID, User> userDB;
 
     public String getUsername()
     {
 	return username;
     }
-    public getName(){return getUsername();}
+    public String getName(){return getUsername();}
     public UUID getUUID()
     {
 	return uuid;

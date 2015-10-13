@@ -81,7 +81,7 @@ public final class UUID_Generator<DigestorT extends MessageDigest>
 	return UUID
 	    ;
     }
-    public generateUUID( String name )
+    public UUID generateUUID( String name )
     {   return generateUUID( namespaceID , name )
 	    ;
     }
