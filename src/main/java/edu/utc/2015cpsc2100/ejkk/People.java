@@ -54,7 +54,7 @@ public final class User extends Principal
     private final String username;
     private Name name; /// Hide me behind a GuardObject
     private final UUID uuid;
-    private static final UUID_Generator user_UUID_generator = new UUID_Generator(UUID_Generator.generateUUID(new UUID(),Settings.getSystemName()), "User");
+    private static final UUID_Generator user_UUID_generator = new UUID_Generator(UUID_Generator.generateUUID(new UUID(0,0), Settings.getSystemName()), "User");
     private static ConcurrentHashMap<UUID, User> userDB;
 
     public String getUsername()
@@ -67,7 +67,7 @@ public final class User extends Principal
 	return uuid;
     }
 
-    public boolean equals(Object another)
+    public boolean equals(User another)
     {
 	return (this.getUUID().equals(another.getUUID()));
     }
@@ -78,7 +78,7 @@ public final class User extends Principal
 	this.username = username;
 	uuid = UUID.randomUUID();
 	if (userDB.containsKey(uuid))
-	    throw NameAlreadyBoundException;
+	    throw NameAlreadyBoundException("Username already taken");
 
 	userDB.put(uuid, this);
     }
