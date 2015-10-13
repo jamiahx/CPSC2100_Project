@@ -31,6 +31,12 @@ public final class UUID_Generator
 {
     private final UUID namespaceID;
 
+    /**
+     * Generate an RFC4122 version 5 UUID
+     * 
+     * @param namespaceID UUID of the current namespace
+     * @param name name of thing for which we are generating a UUID
+     */
     public static
 	< DigestorT extends MessageDigest , BBT extends ByteBuffer >
 	UUID generateUUID
@@ -95,19 +101,40 @@ public final class UUID_Generator
 	return new UUID(hashBB.getLong(0), hashBB.getLong(8))
 	    ;
     }
+
+    /**
+     * Generate an RFC4122 version 5 UUID. Identical to
+     * generateUUID(UUID namespaceID, String name) but uses 
+     * an already-generated UUID of the current namespace
+     * as namespaceID.
+     * @param name name of thing for which we are generating a UUID
+     */
     public UUID generateUUID( String name )
     {   return generateUUID( namespaceID , name )
 	    ;
-	    }
-
-	public UUID_Generator( UUID namespaceID )
-	    {
-		this.namespaceID = namespaceID
-		    ;
-	    }
-	public UUID_Generator( UUID prevNamespaceID , String namespaceName )
-	    {
-		namespaceID = generateUUID( prevNamespaceID , namespaceName )
-		    ;
-	    }
     }
+
+    /**
+     * Instanciates a UUID_Generator using an already-generated
+     * UUID as the namespaceID
+     *
+     * @param namespaceID pre-generated UUID to use as the namespace
+     */
+    public UUID_Generator( UUID namespaceID )
+    {
+	this.namespaceID = namespaceID
+	    ;
+    }
+    /**
+     * Instanciates a UUID_Generator using an auto-generated UUID
+     * as the namespaceID
+     *
+     * @param prevNamespaceID UUID for the namespace that encloses the current one
+     * @param namespaceName name of the current namespace
+     */
+    public UUID_Generator( UUID prevNamespaceID , String namespaceName )
+    {
+	namespaceID = generateUUID( prevNamespaceID , namespaceName )
+	    ;
+    }
+}
