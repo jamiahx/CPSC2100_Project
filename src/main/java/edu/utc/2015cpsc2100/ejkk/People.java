@@ -18,7 +18,8 @@
  * along with CPSC2100_ORS.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.security.Principal;
+import java.nio.file.attribute.UserPrincipal;
+import java.nio.file.attribute.GroupPrincipal;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.naming.NameAlreadyBoundException;
@@ -49,7 +50,7 @@ public final class Name
     }
 }
 
-public final class User extends Principal
+public final class User extends UserPrincipal
 {
     private final String username;
     private Name name; /// Hide me behind a GuardObject
@@ -84,11 +85,11 @@ public final class User extends Principal
     }
 }
 
-public final class Employee extends Principal{}
+public final class Employee extends GroupPrincipal{}
 
-public final class Manager extends Principal{}
+public final class Manager extends GroupPrincipal{}
 
-public final class Customer extends Principal{}
+public final class Customer extends GroupPrincipal{}
 
 public final class PassHash
 {
