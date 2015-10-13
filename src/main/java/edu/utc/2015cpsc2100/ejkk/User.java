@@ -29,7 +29,7 @@ public final class User extends UserPrincipal
 {
     private final String username;
     private Name name; /// Hide me behind a GuardObject
-    private static final UUID_Generator user_UUID_generator = new UUID_Generator(UUID_Generator.generateUUID(new UUID(0,0), Settings.getSystemName()), "User");
+    private static final UUID_Generator user_UUID_generator = new UUID_Generator(UUID_Generator.gen(new UUID(0,0), Settings.getSystemName()), "User");
     private static ConcurrentHashMap<UUID, User> userDB;
 
     public String getUsername()
@@ -51,7 +51,7 @@ public final class User extends UserPrincipal
     {
 	this.name = name;
 	this.username = username;
-	uuid = UUID.randomUUID();
+	UUID uuid = user_UUID_generator.gen(this.name);
 	if (userDB.containsKey(uuid))
 	    throw new NameAlreadyBoundException("Username already taken");
 

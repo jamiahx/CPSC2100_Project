@@ -134,7 +134,7 @@ public final class UUID_Generator
      */
     public UUID_Generator( UUID prevNamespaceID , String namespaceName )
     {
-	namespaceID = generateUUID( prevNamespaceID , namespaceName )
+	namespaceID = gen( prevNamespaceID , namespaceName )
 	    ;
     }
 }
