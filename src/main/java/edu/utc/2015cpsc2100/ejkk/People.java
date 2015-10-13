@@ -78,7 +78,7 @@ public final class User extends Principal
 	this.username = username;
 	uuid = UUID.randomUUID();
 	if (userDB.containsKey(uuid))
-	    throw NameAlreadyBoundException("Username already taken");
+	    throw new NameAlreadyBoundException("Username already taken");
 
 	userDB.put(uuid, this);
     }
