@@ -18,7 +18,10 @@
  * along with CPSC2100_ORS.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Name;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import javax.naming.NameAlreadyBoundException;
+
 
 
 public final class User extends UserPrincipal
@@ -35,7 +38,7 @@ public final class User extends UserPrincipal
     public String getName(){return getUsername();}
     public UUID getUUID()
     {
-	return UUID_Generator.generateUUID(username);
+	return UUID_Generator.gen(username);
     }
 
     public boolean equals(User another)
@@ -44,13 +47,13 @@ public final class User extends UserPrincipal
     }
 
     public User(String username, Name name) throws NameAlreadyBoundException
-	    {
-		this.name = name;
-		this.username = username;
-		uuid = UUID.randomUUID();
-		if (userDB.containsKey(uuid))
-		    throw new NameAlreadyBoundException("Username already taken");
+    {
+	this.name = name;
+	this.username = username;
+	uuid = UUID.randomUUID();
+	if (userDB.containsKey(uuid))
+	    throw new NameAlreadyBoundException("Username already taken");
 
-		userDB.put(uuid, this);
-	    }
+	userDB.put(uuid, this);
     }
+}

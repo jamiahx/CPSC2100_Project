@@ -39,7 +39,7 @@ public final class UUID_Generator
      */
     public static
 	< DigestorT extends MessageDigest , BBT extends ByteBuffer >
-	UUID generateUUID
+	UUID gen
 	( UUID namespaceID , String name )
     {	byte[] namespaceIDBytes = 
 	    BBT 
@@ -109,8 +109,8 @@ public final class UUID_Generator
      * as namespaceID.
      * @param name name of thing for which we are generating a UUID
      */
-    public UUID generateUUID( String name )
-    {   return generateUUID( namespaceID , name )
+    public UUID gen( String name )
+    {   return gen( this.namespaceID , name )
 	    ;
     }
 
