@@ -19,81 +19,95 @@
  */
 
 import java.security.MessageDigest;
-import java.util.UUID;
 import java.util.Arrays;
+import java.util.stream.Stream;
+import java.util.UUID;
 import java.nio.charset.Charset;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 
-public final class UUID_Generator<DigestorT extends MessageDigest>
+public final class UUID_Generator
 {
     private final UUID namespaceID;
 
-    public static UUID generateUUID( UUID namespaceID , String name )
-    {	String namespaceIDString
-	    =   namespaceID
-	    .toString()
+    public static
+	< DigestorT extends MessageDigest , BBT extends ByteBuffer >
+	UUID generateUUID
+	( UUID namespaceID , String name )
+    {	byte[] namespaceIDBytes = 
+	    BBT 
+	    .allocateDirect(16)
+	    .order( ByteOrder .BIG_ENDIAN )
+	    .putLong( 0 ,
+		      namespaceID .getMostSignificantBits()
+		      )
+	    .putLong( 8 ,
+		      namespaceID .getLeastSignificantBits()
+		      )
+	    .array()
 	    ;
-	assert( namespaceIDString
-		.length()
-		== 16
-		)
+	byte[] nameBytes =
+	    BBT
+	    .wrap(name
+		  .getBytes( Charset
+			     .forName( "UTF-8" )
+			     )
+		  )
+	    .order( ByteOrder .BIG_ENDIAN )
+	    .array()
 	    ;
-	byte[] namespaceIDBytes
-	    = new
-	    byte[ 8 ]
+	byte[] concatenatedBytes = 
+	    Arrays
+	    .copyOf( namespaceIDBytes ,
+		     namespaceIDBytes.length + nameBytes.length
+		     )
 	    ;
-	for (int ii = 0; ii < 8; ii++)
-	    {
-		namespaceIDBytes[ii] = Byte.decode("0x" + namespaceIDString.substring( ii*4 , ii*4 + 4))
-		    ;
-	    }
-	byte[] nameBytes
-	    =   name
-	    .getBytes( Charset
-		       .forName( "UTF-8" )
-		       )
+	System .arraycopy( nameBytes ,
+			   0 ,
+			   concatenatedBytes ,
+			   namespaceIDBytes.length ,
+			   nameBytes.length
+			   )
 	    ;
-	byte[] hash
-	    =   DigestorT
+	byte[] hash =
+	    DigestorT
 	    .getInstance( "SHA-1" )
-	    .digest(   Stream
-		       .concat(   Arrays
-				  .stream( namespaceIDBytes )
-				  ,
-				  Arrays
-				  .stream( nameBytes )
-				  )
-		       .toArray( byte[]::new)
-		       )
+	    .digest( concatenatedBytes )
 	    ;
-	hash[ 7 ]
-	    =   ( hash[ 7 ]
-		  & 0x0F
-		  )
-	    | 0x50
+	hash[ 7 ] =
+	    ( hash[ 7 ]
+	      & (byte) 0x0F
+	    )
+	    | (byte) 0x50
 	    ;
-	hash[ 8 ]
-	    =   ( hash[ 8 ]
-		  & 0x3F
-		  )
-	    | 0x80
+	hash[ 8 ] =
+	    ( hash[ 8 ]
+	      & (byte) 0x3F
+	    )
+	    | (byte) 0x80
 	    ;
-	return UUID
+	ByteBuffer hashBB =
+	    BBT
+	    .wrap(hash)
+	    .order( ByteOrder .BIG_ENDIAN )
+	    ;
+	return new UUID(hashBB.getLong(0), hashBB.getLong(8))
 	    ;
     }
     public UUID generateUUID( String name )
     {   return generateUUID( namespaceID , name )
 	    ;
-    }
+	    }
 
-    public UUID_Generator( UUID namespaceID )
-    {
-	this.namespaceID = namespaceID
-	    ;
+	public UUID_Generator( UUID namespaceID )
+	    {
+		this.namespaceID = namespaceID
+		    ;
+	    }
+	public UUID_Generator( UUID prevNamespaceID , String namespaceName )
+	    {
+		namespaceID = generateUUID( prevNamespaceID , namespaceName )
+		    ;
+	    }
     }
-    public UUID_Generator( UUID prevNamespaceID , String namespaceName )
-    {
-	namespaceID = generateUUID( prevNamespaceID , namespaceName )
-	    ;
-    }
-}
