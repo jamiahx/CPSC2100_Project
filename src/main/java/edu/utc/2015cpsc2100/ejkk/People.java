@@ -18,7 +18,7 @@
  * along with CPSC2100_ORS.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.security.Principle;
+import java.security.Principal;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.naming.NameAlreadyBoundException;
@@ -27,7 +27,7 @@ import javax.naming.NameAlreadyBoundException;
 /// How to instantiate a Customer
 // import javax.security.auth.Subject;
 // import java.util.Vector;
-// new Subject(false, new Vector<Principle> {new User(username, Name(firstName, lastName)), new Customer()}, {}, new Vector<PassHash> {PassHash(passHash)});
+// new Subject(false, new Vector<Principal> {new User(username, Name(firstName, lastName)), new Customer()}, {}, new Vector<PassHash> {PassHash(passHash)});
 
 
 public final class Name
@@ -49,7 +49,7 @@ public final class Name
     }
 }
 
-public final class User extends Principle
+public final class User extends Principal
 {
     private final String username;
     private Name name; /// Hide me behind a GuardObject
@@ -84,11 +84,11 @@ public final class User extends Principle
     }
 }
 
-public final class Employee extends Principle{}
+public final class Employee extends Principal{}
 
-public final class Manager extends Principle{}
+public final class Manager extends Principal{}
 
-public final class Customer extends Principle{}
+public final class Customer extends Principal{}
 
 public final class PassHash
 {
