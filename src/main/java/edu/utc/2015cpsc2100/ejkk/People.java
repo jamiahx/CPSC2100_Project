@@ -31,59 +31,7 @@ import javax.naming.NameAlreadyBoundException;
 // new Subject(false, new Vector<Principal> {new User(username, Name(firstName, lastName)), new Customer()}, {}, new Vector<PassHash> {PassHash(passHash)});
 
 
-public final class Name
-{
-    private String firstName;
-    private String lastName;
-    public String getFirstName()
-    {
-	return firstName;
-    }
-    public String getLastName()
-    {	
-	return lastName;
-    }
-    public Name(String firstName, String lastName)
-    {
-	this.firstName = firstName;
-	this.lastName = lastName;
-    }
-}
 
-public final class User extends UserPrincipal
-{
-    private final String username;
-    private Name name; /// Hide me behind a GuardObject
-    private final UUID uuid;
-    private static final UUID_Generator user_UUID_generator = new UUID_Generator(UUID_Generator.generateUUID(new UUID(0,0), Settings.getSystemName()), "User");
-    private static ConcurrentHashMap<UUID, User> userDB;
-
-    public String getUsername()
-    {
-	return username;
-    }
-    public String getName(){return getUsername();}
-    public UUID getUUID()
-    {
-	return uuid;
-    }
-
-    public boolean equals(User another)
-    {
-	return (this.getUUID().equals(another.getUUID()));
-    }
-
-    public User(String username, Name name) throws NameAlreadyBoundException
-    {
-	this.name = name;
-	this.username = username;
-	uuid = UUID.randomUUID();
-	if (userDB.containsKey(uuid))
-	    throw new NameAlreadyBoundException("Username already taken");
-
-	userDB.put(uuid, this);
-    }
-}
 
 public final class Employee extends GroupPrincipal{}
 
