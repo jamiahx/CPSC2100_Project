@@ -39,7 +39,7 @@ public final class User extends UserPrincipal
     public String getName(){return getUsername();}
     public UUID getUUID()
     {
-	return UUID_Generator.gen(username);
+	return user_UUID_generator.gen(username);
     }
 
     public boolean equals(User another)
@@ -51,7 +51,7 @@ public final class User extends UserPrincipal
     {
 	this.name = name;
 	this.username = username;
-	UUID uuid = user_UUID_generator.gen(this.name);
+	UUID uuid = user_UUID_generator.gen(this.username);
 	if (userDB.containsKey(uuid))
 	    throw new NameAlreadyBoundException("Username already taken");
 
