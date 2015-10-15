@@ -112,29 +112,28 @@ public final class UUID_Generator
     public UUID gen( String name )
     {   return gen( this.namespaceID , name )
 	    ;
-	    }
-
-	/**
-	 * Instanciates a UUID_Generator using an already-generated
-	 * UUID as the namespaceID
-	 *
-	 * @param namespaceID pre-generated UUID to use as the namespace
-	 */
-	public UUID_Generator( UUID namespaceID )
-	    {
-		this.namespaceID = namespaceID
-		    ;
-	    }
-	/**
-	 * Instanciates a UUID_Generator using an auto-generated UUID
-	 * as the namespaceID
-	 *
-	 * @param prevNamespaceID UUID for the namespace that encloses the current one
-	 * @param namespaceName name of the current namespace
-	 */
-	public UUID_Generator( UUID prevNamespaceID , String namespaceName )
-	    {
-		namespaceID = gen( prevNamespaceID , namespaceName )
-		    ;
-	    }
     }
+
+    /**
+     * Instanciates a UUID_Generator using an already-generated
+     * UUID as the namespaceID
+     * @param namespaceID pre-generated UUID to use as the namespace
+     */
+    public UUID_Generator( UUID namespaceID )
+    {
+	this.namespaceID = namespaceID
+	    ;
+    }
+    /**
+     * Instanciates a UUID_Generator using an auto-generated UUID
+     * as the namespaceID
+     *
+     * @param prevNamespaceID UUID for the namespace that encloses the current one
+     * @param namespaceName name of the current namespace
+     */
+    public UUID_Generator( UUID prevNamespaceID , String namespaceName )
+    {
+	namespaceID = gen( prevNamespaceID , namespaceName )
+	    ;
+    }
+}
