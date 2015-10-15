@@ -30,11 +30,11 @@ import java.nio.file.attribute.GroupPrincipal;
 
 
 
-public final class Employee extends GroupPrincipal{}
+public final class Employee implements GroupPrincipal{}
 
-public final class Manager extends GroupPrincipal{}
+public final class Manager implements GroupPrincipal{}
 
-public final class Customer extends GroupPrincipal{}
+public final class Customer implements GroupPrincipal{}
 
 public final class PassHash
 {
