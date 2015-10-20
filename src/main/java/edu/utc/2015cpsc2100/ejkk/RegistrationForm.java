@@ -24,7 +24,7 @@
 package edu.utc._2015cpsc2100.ejkk;
 
 
-public class RegestrationForm {
+public class RegistrationForm {
 
     public String customerFirstName;
     public String customerLastName;
@@ -35,7 +35,7 @@ public class RegestrationForm {
     public String password;
 	
 	
-    public RegestrationForm(String customerFirstName, String customerLastName, String address, String emailAddress, String phoneNumber, String userName, String password)
+    public RegistrationForm(String customerFirstName, String customerLastName, String address, String emailAddress, String phoneNumber, String userName, String password)
     {
 	this.customerFirstName = customerFirstName;
 	this.customerLastName = customerLastName;
