@@ -39,7 +39,7 @@ public class Reservation
     public int resNumber;
 	
     public Date getPickUpDate() { return pickUpDate; }
-    public Date getdropOffDate() { return dropOffDate; }
+    public Date getDropOffDate() { return dropOffDate; }
     public Vehicle getVehicle() { return vehicle; }
     public Customer getCustomer() { return customer; }
     public int getCreditCardInfo() { return ccNumber; }
