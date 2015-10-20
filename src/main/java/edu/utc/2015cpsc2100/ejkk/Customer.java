@@ -23,22 +23,7 @@
 
 package edu.utc._2015cpsc2100.ejkk;
 
+import java.nio.file.attribute.GroupPrincipal;
 
-public final class Name
-{
-    private String firstName;
-    private String lastName;
-    public String getFirstName()
-    {
-	return firstName;
-    }
-    public String getLastName()
-    {	
-	return lastName;
-    }
-    public Name(String firstName, String lastName)
-    {
-	this.firstName = firstName;
-	this.lastName = lastName;
-    }
-}
+
+public final class Customer implements GroupPrincipal{}

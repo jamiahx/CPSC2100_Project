@@ -24,21 +24,15 @@
 package edu.utc._2015cpsc2100.ejkk;
 
 
-public final class Name
+public final class PassHash
 {
-    private String firstName;
-    private String lastName;
-    public String getFirstName()
+    private byte[] passHash;
+    public byte[] getPassHash()
     {
-	return firstName;
+	return passHash;
     }
-    public String getLastName()
-    {	
-	return lastName;
-    }
-    public Name(String firstName, String lastName)
+    public PassHash(byte[] passHash)
     {
-	this.firstName = firstName;
-	this.lastName = lastName;
+	this.passHash = passHash;
     }
 }

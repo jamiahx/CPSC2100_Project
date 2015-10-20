@@ -1,6 +1,8 @@
 /**
- * Copyright 2015 Emma Perez, jamiahx
+ * Copyright 2015 Emma Perez, jamiahx, Kate Siprelle, Kaleb Sanchez
  * jamiahx@gmail.com
+ * kalebsanchez23@yahoo.com
+ * ksiprelle@gmail.com
  * 
  * This file is a part of CPSC2100_ORS.
  *
@@ -18,14 +20,16 @@
  * along with CPSC2100_ORS.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
+package edu.utc._2015cpsc2100.ejkk;
+
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.naming.NameAlreadyBoundException;
 import java.nio.file.attribute.UserPrincipal;
 
 
-
-public final class User extends UserPrincipal
+public final class User implements UserPrincipal
 {
     private final String username;
     private Name name; /// Hide me behind a GuardObject

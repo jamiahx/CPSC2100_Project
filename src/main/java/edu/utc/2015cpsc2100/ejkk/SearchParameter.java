@@ -23,22 +23,19 @@
 
 package edu.utc._2015cpsc2100.ejkk;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 
-public final class Name
+
+public class SearchParameter
 {
-    private String firstName;
-    private String lastName;
-    public String getFirstName()
+    public Method method;
+    public Type result;
+	
+    public SearchParameter(Method method, Type result)
     {
-	return firstName;
+	this.method = method;
+	this.result = result;
     }
-    public String getLastName()
-    {	
-	return lastName;
-    }
-    public Name(String firstName, String lastName)
-    {
-	this.firstName = firstName;
-	this.lastName = lastName;
-    }
+	
 }

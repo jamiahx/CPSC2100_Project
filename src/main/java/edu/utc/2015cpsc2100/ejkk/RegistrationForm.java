@@ -24,21 +24,30 @@
 package edu.utc._2015cpsc2100.ejkk;
 
 
-public final class Name
-{
-    private String firstName;
-    private String lastName;
-    public String getFirstName()
+public class RegistrationForm {
+
+    public String customerFirstName;
+    public String customerLastName;
+    public String address;
+    public String emailAddress;
+    public String phoneNumber;
+    public String userName;
+    public String password;
+	
+	
+    public RegistrationForm(String customerFirstName, String customerLastName, String address, String emailAddress, String phoneNumber, String userName, String password)
     {
-	return firstName;
+	this.customerFirstName = customerFirstName;
+	this.customerLastName = customerLastName;
+	this.address = address;
+	this.emailAddress = emailAddress;
+	this.phoneNumber = phoneNumber;
+	this.userName = userName;
+	this.password = password;
     }
-    public String getLastName()
-    {	
-	return lastName;
-    }
-    public Name(String firstName, String lastName)
+	
+    public String toString()
     {
-	this.firstName = firstName;
-	this.lastName = lastName;
+	return customerFirstName +" " + customerLastName + " " + address + " " + emailAddress + " " + phoneNumber + " " + userName + " " + password;
     }
 }

@@ -1,6 +1,8 @@
 /**
- * Copyright 2015 Emma Perez, jamiahx
+ * Copyright 2015 Emma Perez, jamiahx, Kate Siprelle, Kaleb Sanchez
  * jamiahx@gmail.com
+ * kalebsanchez23@yahoo.com
+ * ksiprelle@gmail.com
  * 
  * This file is a part of CPSC2100_ORS.
  *
@@ -18,8 +20,10 @@
  * along with CPSC2100_ORS.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.nio.file.attribute.GroupPrincipal;
 
+package edu.utc._2015cpsc2100.ejkk;
+
+import java.nio.file.attribute.GroupPrincipal;
 
 
 /// How to instantiate a Customer
@@ -30,21 +34,3 @@ import java.nio.file.attribute.GroupPrincipal;
 
 
 
-public final class Employee implements GroupPrincipal{}
-
-public final class Manager implements GroupPrincipal{}
-
-public final class Customer implements GroupPrincipal{}
-
-public final class PassHash
-{
-    private byte[] passHash;
-    public byte[] getPassHash()
-    {
-	return passHash;
-    }
-    public PassHash(byte[] passHash)
-    {
-	this.passHash = passHash;
-    }
-}
