@@ -25,6 +25,8 @@ import java.util.Scanner;
 import java.time.Year;
 
 
+package edu.utc.2015cpsc2100.ejkk;
+
 public class VehicleTester {
 
     public static void main (String [] args) throws IOException{

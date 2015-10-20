@@ -20,6 +20,9 @@
 
 import java.time.Year;
 
+
+package edu.utc.2015cpsc2100.ejkk;
+
 public class Vehicle {
 
     private final String make;

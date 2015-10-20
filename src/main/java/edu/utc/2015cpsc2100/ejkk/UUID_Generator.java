@@ -27,6 +27,8 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 
+package edu.utc.2015cpsc2100.ejkk;
+
 public final class UUID_Generator
 {
     private final UUID namespaceID;
