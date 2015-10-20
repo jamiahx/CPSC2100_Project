@@ -29,7 +29,7 @@ import javax.naming.NameAlreadyBoundException;
 import java.nio.file.attribute.UserPrincipal;
 
 
-public final class User extends UserPrincipal
+public final class User implements UserPrincipal
 {
     private final String username;
     private Name name; /// Hide me behind a GuardObject
