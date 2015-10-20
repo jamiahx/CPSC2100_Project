@@ -36,20 +36,21 @@ public class Employee
      */
     public Employee(String aReservation, String aVehicle, String aNewVehicle)
     {
-        reservation = aReservation;
-        vehicle = aVehicle;
-        newVehicle = aNewVehicle;
+        this.reservation = aReservation;
+        this.vehicle = aVehicle;
+        this.newVehicle = aNewVehicle;
     }
     /**
      * 
      * @return newVehicle that needs to be registered in the system 
      */
 
-    public String registerNewVehicle()
-    {
-	return newVehicle;
-    }
-   
+   public String registerNewVehicle()
+   {
+      
+       return newVehicle;
+   }
+    
     /**
      * 
      * @return vehicle that can be updated in the list already
