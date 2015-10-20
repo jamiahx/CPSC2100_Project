@@ -22,9 +22,9 @@ public class Employee
      */
     public Employee(String aReservation, String aVehicle, String aNewVehicle)
     {
-        reservation = aReservation;
-        vehicle = aVehicle;
-        newVehicle = aNewVehicle;
+        this.reservation = aReservation;
+        this.vehicle = aVehicle;
+        this.newVehicle = aNewVehicle;
     }
     /**
      * 
@@ -33,6 +33,7 @@ public class Employee
 
    public String registerNewVehicle()
    {
+      
        return newVehicle;
    }
    
