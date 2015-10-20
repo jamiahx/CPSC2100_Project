@@ -31,8 +31,6 @@ package edu.utc.2015cpsc2100.ejkk;
 
 
 
-public final class Employee implements GroupPrincipal{}
-
 public final class Manager implements GroupPrincipal{}
 
 public final class Customer implements GroupPrincipal{}

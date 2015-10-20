@@ -21,9 +21,12 @@
  */
 
 
+import java.nio.file.attribute.GroupPrincipal;
+
+
 package edu.utc.2015cpsc2100.ejkk;
 
-public class Employee 
+public final class Employee implements GroupPrinciple
 {
     private String reservation;
     private String vehicle;
@@ -45,11 +48,11 @@ public class Employee
      * @return newVehicle that needs to be registered in the system 
      */
 
-   public String registerNewVehicle()
-   {
+    public String registerNewVehicle()
+    {
       
-       return newVehicle;
-   }
+	return newVehicle;
+    }
     
     /**
      * 
