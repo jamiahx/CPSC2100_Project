@@ -19,7 +19,12 @@
  */
 
 import java.time.Year;
-
+/**
+ * 
+ * @author Emma Perez, (...)
+ * This class constructs a vehicle object. 
+ *
+ */
 public class Vehicle {
 
     private final String make;
