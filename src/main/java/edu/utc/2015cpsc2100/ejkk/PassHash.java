@@ -23,14 +23,16 @@
 
 package edu.utc._2015cpsc2100.ejkk;
 
-import java.nio.file.attribute.GroupPrincipal;
 
-
-/// How to instantiate a Customer
-// import javax.security.auth.Subject;
-// import java.util.Vector;
-// new Subject(false, new Vector<Principal> {new User(username, Name(firstName, lastName)), new Customer()}, {}, new Vector<PassHash> {PassHash(passHash)});
-
-
-
-
+public final class PassHash
+{
+    private byte[] passHash;
+    public byte[] getPassHash()
+    {
+	return passHash;
+    }
+    public PassHash(byte[] passHash)
+    {
+	this.passHash = passHash;
+    }
+}
