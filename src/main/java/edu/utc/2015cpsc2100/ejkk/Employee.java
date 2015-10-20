@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package employee;
+package edu.utc.2015cpsc2100.ejkk;
 
 /**
  *
@@ -31,25 +31,25 @@ public class Employee
      * @return newVehicle that needs to be registered in the system 
      */
 
-   public String registerNewVehicle()
-   {
-       return newVehicle;
-   }
+    public String registerNewVehicle()
+    {
+	return newVehicle;
+    }
    
-   /**
-    * 
-    * @return vehicle that can be updated in the list already
-    */
-   public String updateExistingVehicle()
-   {
-       return vehicle;
-   }
-   /**
-    * 
-    * @return reservation that has been updated
-    */
-   public String updateReservation()
-   {
-       return reservation;
-   }
+    /**
+     * 
+     * @return vehicle that can be updated in the list already
+     */
+    public String updateExistingVehicle()
+    {
+	return vehicle;
+    }
+    /**
+     * 
+     * @return reservation that has been updated
+     */
+    public String updateReservation()
+    {
+	return reservation;
+    }
 }

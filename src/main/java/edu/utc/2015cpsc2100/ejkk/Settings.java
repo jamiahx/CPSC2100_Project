@@ -20,6 +20,9 @@
 
 import java.util.Scanner;
 
+
+package edu.utc.2015cpsc2100.ejkk;
+
 public final class Settings
 {
     private static Scanner settingsSource = new Scanner("settings.txt");

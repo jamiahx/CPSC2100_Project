@@ -18,6 +18,8 @@
  * along with CPSC2100_ORS.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+package edu.utc.2015cpsc2100.ejkk;
+
 public final class Name
 {
     private String firstName;
