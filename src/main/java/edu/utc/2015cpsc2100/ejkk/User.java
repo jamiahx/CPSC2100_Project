@@ -21,13 +21,13 @@
  */
 
 
+package edu.utc._2015cpsc2100.ejkk;
+
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.naming.NameAlreadyBoundException;
 import java.nio.file.attribute.UserPrincipal;
 
-
-package edu.utc.2015cpsc2100.ejkk;
 
 public final class User extends UserPrincipal
 {

@@ -21,14 +21,14 @@
  */
 
 
+package edu.utc._2015cpsc2100.ejkk;
+
 import java.util.ArrayList;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 import java.time.Year;
 
-
-package edu.utc.2015cpsc2100.ejkk;
 
 public class VehicleTester {
 

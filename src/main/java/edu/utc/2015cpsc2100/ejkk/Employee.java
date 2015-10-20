@@ -21,10 +21,10 @@
  */
 
 
+package edu.utc._2015cpsc2100.ejkk;
+
 import java.nio.file.attribute.GroupPrincipal;
 
-
-package edu.utc.2015cpsc2100.ejkk;
 
 public final class Employee implements GroupPrinciple
 {
