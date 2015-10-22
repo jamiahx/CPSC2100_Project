@@ -24,7 +24,7 @@
 package edu.utc._2015cpsc2100.ejkk;
 
 
-public final class Name
+public final class Name extends PrivInfo
 {
     private String firstName;
     private String lastName;
@@ -36,9 +36,10 @@ public final class Name
     {	
 	return lastName;
     }
-    public Name(String firstName, String lastName)
+    public Name(String firstName, String lastName, UUID owner)
     {
 	this.firstName = firstName;
 	this.lastName = lastName;
+	PrivInfo(owner);
     }
 }

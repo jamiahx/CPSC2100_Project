@@ -24,6 +24,7 @@
 package edu.utc._2015cpsc2100.ejkk;
 
 import java.util.UUID;
+import java.security.GuardedObject;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.naming.NameAlreadyBoundException;
 import java.nio.file.attribute.UserPrincipal;
@@ -32,7 +33,7 @@ import java.nio.file.attribute.UserPrincipal;
 public final class User implements UserPrincipal
 {
     private final String username;
-    private Name name; /// Hide me behind a GuardObject
+    public GuardedObject guardedName; /// Hide me behind a GuardObject
     private static final UUID_Generator user_UUID_generator = new UUID_Generator(UUID_Generator.gen(new UUID(0,0), Settings.getSystemName()), "User");
     private static ConcurrentHashMap<UUID, User> userDB;
 
@@ -53,7 +54,7 @@ public final class User implements UserPrincipal
 
     public User(String username, Name name) throws NameAlreadyBoundException
     {
-	this.name = name;
+	this.name = GuardedObject(name, );
 	this.username = username;
 	UUID uuid = user_UUID_generator.gen(this.username);
 	if (userDB.containsKey(uuid))
