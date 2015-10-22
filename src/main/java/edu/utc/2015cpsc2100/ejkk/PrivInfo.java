@@ -41,4 +41,6 @@ public abstract class PrivInfo implements Destroyable
     {
 	PrivInfoDB.put(UUID_Generator.gen(owner, this.getClass.toString()), this);
     }
+
+    public static GuardedObject getGuardedInfo(UUID owner) {return PrivInfoDB.get(owner);}
 }
