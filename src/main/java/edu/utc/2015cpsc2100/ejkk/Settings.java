@@ -1,6 +1,8 @@
 /**
- * Copyright 2015 jamiahx
+ * Copyright 2015 Emma Perez, jamiahx, Kate Siprelle, Kaleb Sanchez
  * jamiahx@gmail.com
+ * kalebsanchez23@yahoo.com
+ * ksiprelle@gmail.com
  * 
  * This file is a part of CPSC2100_ORS.
  *
@@ -18,7 +20,11 @@
  * along with CPSC2100_ORS.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
+package edu.utc._2015cpsc2100.ejkk;
+
 import java.util.Scanner;
+
 
 public final class Settings
 {

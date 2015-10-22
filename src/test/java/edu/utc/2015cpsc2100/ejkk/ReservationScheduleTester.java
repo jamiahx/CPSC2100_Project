@@ -23,22 +23,30 @@
 
 package edu.utc._2015cpsc2100.ejkk;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 
-public final class Name
+
+public class ReservationScheduleTester
 {
-    private String firstName;
-    private String lastName;
-    public String getFirstName()
+
+    public static void main(String[] args)
     {
-	return firstName;
+	ArrayList<Object> test = new ArrayList<Object>();
+	test.add(new Temp(1, "A", true));
+	test.add(new Temp(2, "B", false));
+	test.add(new Temp(3, "C", true));
+	test.add(new Temp(4, "D", true));
+		
+	Searcher mySearch = new Searcher(test);
+	ArrayList<Object> results = new ArrayList<Object>();
+	Method myMethod = test.get(0).class.getMethod("getInt", null);
+	results = mySearch.search(new SearchParameter(myMethod, 3));
+	for (int i = 0; i < results.size(); i++)
+	    {
+		System.out.println(results.get(i).toString());
+	    }
+		
     }
-    public String getLastName()
-    {	
-	return lastName;
-    }
-    public Name(String firstName, String lastName)
-    {
-	this.firstName = firstName;
-	this.lastName = lastName;
-    }
+
 }

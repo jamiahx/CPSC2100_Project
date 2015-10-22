@@ -1,15 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package employee;
-
 /**
+ * Copyright 2015 Emma Perez, jamiahx, Kate Siprelle, Kaleb Sanchez
+ * jamiahx@gmail.com
+ * kalebsanchez23@yahoo.com
+ * ksiprelle@gmail.com
+ * 
+ * This file is a part of CPSC2100_ORS.
  *
- * @author kalebsanchez
+ * CPSC2100_ORS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+
+ * CPSC2100_ORS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with CPSC2100_ORS.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class Employee 
+
+
+package edu.utc._2015cpsc2100.ejkk;
+
+import java.nio.file.attribute.GroupPrincipal;
+
+
+public final class Employee implements GroupPrinciple extends Vehicle
 {
     private String reservation;
     private String vehicle;
@@ -22,34 +39,36 @@ public class Employee
      */
     public Employee(String aReservation, String aVehicle, String aNewVehicle)
     {
-        reservation = aReservation;
-        vehicle = aVehicle;
-        newVehicle = aNewVehicle;
+        this.reservation = aReservation;
+        this.vehicle = aVehicle;
+        this.newVehicle = aNewVehicle;
     }
     /**
      * 
      * @return newVehicle that needs to be registered in the system 
      */
 
-   public String registerNewVehicle()
-   {
-       return newVehicle;
-   }
-   
-   /**
-    * 
-    * @return vehicle that can be updated in the list already
-    */
-   public String updateExistingVehicle()
-   {
-       return vehicle;
-   }
-   /**
-    * 
-    * @return reservation that has been updated
-    */
-   public String updateReservation()
-   {
-       return reservation;
-   }
+    public String registerNewVehicle()
+    {
+      
+	return newVehicle;
+    }
+    
+    /**
+     * 
+     * @return vehicle that can be updated in the list already
+     */
+    public String updateExistingVehicle()
+    {
+    	
+	return vehicle;
+    }
+    /**
+     * 
+     * @return reservation that has been updated
+     */
+    public String updateReservation()
+    {
+	return reservation;
+    }
 }

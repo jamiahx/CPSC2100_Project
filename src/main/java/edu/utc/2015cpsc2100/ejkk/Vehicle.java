@@ -1,6 +1,8 @@
 /**
- * Copyright 2015 Emma Perez, jamiahx
+ * Copyright 2015 Emma Perez, jamiahx, Kate Siprelle, Kaleb Sanchez
  * jamiahx@gmail.com
+ * kalebsanchez23@yahoo.com
+ * ksiprelle@gmail.com
  * 
  * This file is a part of CPSC2100_ORS.
  *
@@ -18,13 +20,21 @@
  * along with CPSC2100_ORS.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
+package edu.utc._2015cpsc2100.ejkk;
+
 import java.time.Year;
+<<<<<<< HEAD
 /**
  * 
  * @author Emma Perez, (...)
  * This class constructs a vehicle object. 
  *
  */
+=======
+
+
+>>>>>>> branch 'master' of https://github.com/jamiahx/CPSC2100_ORS.git
 public class Vehicle {
 
     private final String make;
@@ -67,4 +77,7 @@ public class Vehicle {
     {
 	return (make + "," + model + "," + year.toString() + "," + category + "," + rate + "," + description);
     }
+    
+    public 
 }
+
