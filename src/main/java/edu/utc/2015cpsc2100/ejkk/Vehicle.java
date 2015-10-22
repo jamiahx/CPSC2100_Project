@@ -41,15 +41,15 @@ public class Vehicle {
     private final String model;
     private final Year year;
     private final String category;
-    protected static int rate;
-    protected static String description;
+    protected int rate;
+    protected String description;
 
     public String getMake(){return make;}
     public String getModel(){return model;}
     public Year getYear(){return year;}
     public String getCategory(){return category;}
-    public static int getRate(){return rate;}
-    public static String getDescription(){return description;}
+    public int getRate(){return rate;}
+    public String getDescription(){return description;}
 
     /**
      * Vehicle constructor for the Vehicle class
