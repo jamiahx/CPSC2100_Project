@@ -78,6 +78,11 @@ public class Vehicle {
 	return (make + "," + model + "," + year.toString() + "," + category + "," + rate + "," + description);
     }
     
-    public 
+    public void update(int rate, string description)
+    {
+    	this.rate = rate;
+    	this.description = description;
+    	
+    }
 }
 
