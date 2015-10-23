@@ -27,6 +27,9 @@ import java.util.ArrayList;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
+
+import edu.utc._2015cpsc2100.ejkk.Vehicle;
+
 import java.time.Year;
 
 
