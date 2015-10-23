@@ -42,12 +42,10 @@ public final class UUID_Generator
      * @param namespaceID UUID of the current namespace
      * @param name name of thing for which we are generating a UUID
      */
-    public static
-	< DigestorT extends MessageDigest , BBT extends ByteBuffer >
-	UUID gen
-	( UUID namespaceID , String name )
+    public static UUID
+	gen( UUID namespaceID , String name )
     {	byte[] namespaceIDBytes = 
-	    BBT 
+	    ByteBuffer
 	    .allocateDirect(16)
 	    .order( ByteOrder .BIG_ENDIAN )
 	    .putLong( 0 ,
@@ -59,7 +57,7 @@ public final class UUID_Generator
 	    .array()
 	    ;
 	byte[] nameBytes =
-	    BBT
+	    ByteBuffer
 	    .wrap(name
 		  .getBytes( Charset
 			     .forName( "UTF-8" )
@@ -82,7 +80,7 @@ public final class UUID_Generator
 			   )
 	    ;
 	byte[] hash =
-	    DigestorT
+	    MessageDigest
 	    .getInstance( "SHA-1" )
 	    .digest( concatenatedBytes )
 	    ;
@@ -99,7 +97,7 @@ public final class UUID_Generator
 	    | 0b1000_0000
 	    ;
 	ByteBuffer hashBB =
-	    BBT
+	    ByteBuffer
 	    .wrap(hash)
 	    .order( ByteOrder .BIG_ENDIAN )
 	    ;
