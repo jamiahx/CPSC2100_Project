@@ -81,4 +81,15 @@ public class Reservation
 	    "Reservation Number: " + resNumber;
 	return s;
     }
+    
+    public void validateCC(int ccNumber) // Need to validate cc ?! 
+    {
+    	// store number in an array
+    	// if ( ccNumber = array.size() == 16)
+    	// return true
+    	// or string "Card is valid"
+    	// else 
+    	// return false
+    	// or string "Card is invalid"
+    }
 }
