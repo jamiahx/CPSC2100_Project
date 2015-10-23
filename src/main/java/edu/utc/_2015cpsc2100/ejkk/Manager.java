@@ -23,13 +23,14 @@
 
 package edu.utc._2015cpsc2100.ejkk;
 
-import java.nio.file.attribute.GroupPrincipal;
+import java.security.Principal;
 
 
-public final class Manager implements GroupPrincipal{
-
-	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
-	}}
+public final class Manager implements Principal
+{
+    public String getName()
+    {
+	// TODO Auto-generated method stub
+	return null;
+    }
+}
