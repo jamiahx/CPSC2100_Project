@@ -24,17 +24,7 @@
 package edu.utc._2015cpsc2100.ejkk;
 
 import java.time.Year;
-<<<<<<< HEAD
-/**
- * 
- * @author Emma Perez, (...)
- * This class constructs a vehicle object. 
- *
- */
-=======
 
-
->>>>>>> branch 'master' of https://github.com/jamiahx/CPSC2100_ORS.git
 public class Vehicle {
 
     private final String make;
