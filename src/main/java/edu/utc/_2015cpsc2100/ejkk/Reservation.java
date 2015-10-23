@@ -63,7 +63,7 @@ public class Reservation
 	this.customer = customer;
 	this.ccNumber = ccNumber;
 	reservationDates = pickUpDate.daysUntil(dropOffDate);
-	price = vehicle.pricePerDay * reservationDates;
+	price = vehicle.rate * reservationDates;
 	resNumber = reservationNumber;
     }
 	
