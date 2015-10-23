@@ -27,10 +27,10 @@ import java.util.UUID;
 import java.security.GuardedObject;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.naming.NameAlreadyBoundException;
-import java.nio.file.attribute.UserPrincipal;
+import java.security.Principal;
 
 
-public final class User implements UserPrincipal
+public final class User implements Principal
 {
     private final String username;
     public GuardedObject guardedName; /// Hide me behind a GuardObject

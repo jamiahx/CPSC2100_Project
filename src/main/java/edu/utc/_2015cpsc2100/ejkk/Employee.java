@@ -23,10 +23,10 @@
 
 package edu.utc._2015cpsc2100.ejkk;
 
-import java.nio.file.attribute.GroupPrincipal;
+import java.security.Principal;
 
 
-public final class Employee extends GroupPrincipal implements Vehicle
+public final class Employee implements Principal
 {
     private String reservation;
     private String vehicle;
@@ -71,9 +71,9 @@ public final class Employee extends GroupPrincipal implements Vehicle
     {
 	return reservation;
     }
-	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getName() {
+	// TODO Auto-generated method stub
+	return null;
+    }
 }
