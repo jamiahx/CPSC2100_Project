@@ -43,13 +43,13 @@ public final class UUID_Generator
      * @param name name of thing for which we are generating a UUID
      */
     public static UUID
-	gen( UUID namespaceID , String name )
+    gen( UUID namespaceID , String name )
     {	byte[] namespaceIDBytes = 
 	    ByteBuffer
 	    .allocateDirect(16)
 	    .order( ByteOrder .BIG_ENDIAN )
 	    .putLong( 0 ,
-		      namespaceID .getMostSignificantBits()
+ 		      namespaceID .getMostSignificantBits()
 		      )
 	    .putLong( 8 ,
 		      namespaceID .getLeastSignificantBits()
@@ -105,6 +105,12 @@ public final class UUID_Generator
 	    ;
     }
 
+    public static UUID
+	gen(UUID rootNamespaceID, String firstNamespace, String... furtherNames )
+    {
+	return gen(gen(rootNamespaceID, firstNamespace), furtherNames);
+    }
+    
     /**
      * Generate an RFC4122 version 5 UUID. Identical to
      * generateUUID(UUID namespaceID, String name) but uses 
@@ -118,25 +124,27 @@ public final class UUID_Generator
     }
 
     /**
-     * Instanciates a UUID_Generator using an already-generated
-     * UUID as the namespaceID
-     * @param namespaceID pre-generated UUID to use as the namespace
-     */
-    public UUID_Generator( UUID namespaceID )
-    {
-	this.namespaceID = namespaceID
-	    ;
-    }
-    /**
-     * Instanciates a UUID_Generator using an auto-generated UUID
-     * as the namespaceID
-     *
-     * @param prevNamespaceID UUID for the namespace that encloses the current one
-     * @param namespaceName name of the current namespace
-     */
-    public UUID_Generator( UUID prevNamespaceID , String namespaceName )
-    {
-	namespaceID = gen( prevNamespaceID , namespaceName )
-	    ;
-    }
-}
+	 * Instanciates a UUID_Generator using an already-generated
+	 * UUID as the namespaceID
+	 * @param namespaceID pre-generated UUID to use as the namespace
+	 */
+	public UUID_Generator( UUID namespaceID )
+	    {
+		this.namespaceID = namespaceID
+		    ;
+	    }
+	/**
+	 * Instanciates a UUID_Generator using an auto-generated UUID
+	 * as the namespaceID
+	 *
+	 * @param prevNamespaceID UUID for the namespace that encloses the current one
+	 * @param namespaceName name of the current namespace
+	 */
+	public UUID_Generator( UUID prevNamespaceID , String namespaceName )
+	    {
+		namespaceID = gen( prevNamespaceID , namespaceName )
+		    ;
+	    }
+
+	public UUID_Generator( String namespap
+			       }
