@@ -37,10 +37,9 @@ public final class Name extends PrivInfo
     {	
 	return lastName;
     }
-    public Name(String firstName, String lastName, UUID owner)
+    public Name(String firstName, String lastName)
     {
 	this.firstName = firstName;
 	this.lastName = lastName;
-	PrivInfo(owner);
     }
 }

@@ -54,7 +54,7 @@ public final class User implements Principal
 
     public User(String username, Name name) throws NameAlreadyBoundException
     {
-	this.name = GuardedObject(name, );
+	this.guardedName = new GuardedObject(name, new BasicPermission());
 	this.username = username;
 	UUID uuid = user_UUID_generator.gen(this.username);
 	if (userDB.containsKey(uuid))
