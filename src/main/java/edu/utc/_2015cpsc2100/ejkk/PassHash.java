@@ -23,8 +23,10 @@
 
 package edu.utc._2015cpsc2100.ejkk;
 
+import java.security.MessageDigest;
 
-public final class PassHash
+
+public final class PassHash extends PrivInfo
 {
     private byte[] passHash;
     public byte[] getPassHash()
@@ -37,5 +39,7 @@ public final class PassHash
     }
 
     public PassHash(String pass)
-    {}
+    {
+	passHash = MessageDigest.getInstance("SHA-512").digest(pass.getBytes());
+    }
 }
