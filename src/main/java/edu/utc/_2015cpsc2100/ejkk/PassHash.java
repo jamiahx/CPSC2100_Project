@@ -35,4 +35,7 @@ public final class PassHash
     {
 	this.passHash = passHash;
     }
+
+    public PassHash(String pass)
+    {}
 }
