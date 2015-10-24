@@ -35,11 +35,12 @@ import java.time.Year;
 
 public class VehicleTester {
 
-    public static void main (String [] args) throws IOException{
+    public static ArrayList<Vehicle> main (String [] args) throws IOException{
 		
 	Scanner scanner = new Scanner(System.in);
 	System.out.println("Please enter your file path. Do not leave a single character out. For example: /Users/emmaperez/Desktop/data(1).txt");
-	File file = new File(scanner.nextLine());
+	//File file = new File(scanner.nextLine());
+	File file = new File("/Users/emmaperez/Desktop/vehicles.txt");
 	System.out.println("You selected this file: " + file.getName());
 
 
@@ -53,8 +54,11 @@ public class VehicleTester {
 	 }
 	for (int i = 0; i < vehicles.size(); i++)
 	{
+		
 		System.out.println(vehicles.get(i).toString());
 	}
-
+	
+	return vehicles;
     }
+    
 }
