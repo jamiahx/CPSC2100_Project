@@ -43,18 +43,18 @@ public class VehicleTester {
 	System.out.println("You selected this file: " + file.getName());
 
 
-	Scanner s = new Scanner(file).useDelimiter(",");
+	Scanner s = new Scanner(file).useDelimiter(", ");
 	
 	ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
 		
 	while(s.hasNext())
-	    {
+	 {
 		vehicles.add(new Vehicle(s.next(), s.next(), Year.parse(s.next()), s.next(), Integer.valueOf(s.next()), s.next()));
-	    }
+	 }
 	for (int i = 0; i < vehicles.size(); i++)
-	    {
+	{
 		System.out.println(vehicles.get(i).toString());
-	    }
+	}
 
     }
 }
