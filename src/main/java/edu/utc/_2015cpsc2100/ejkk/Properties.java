@@ -23,17 +23,11 @@
 
 package edu.utc._2015cpsc2100.ejkk;
 
-import javax.security.auth.login.LoginContext;
-import com.sun.security.auth.callback.TextCallbackHandler;
 
-
-public static final class Login
+public static final class Properties
 {
-    public static final void main(String... args)
+    public static void defaultProperties()
     {
-	LoginContext login
-	    = new LoginContext(System.getProperty("edu.utc._2015cpsc2100.ejkk.ORS.LoginConf"),
-			       new TextCallbackHandler());
-	login.login();
+	System.setProperty("edu.utc._2015cpsc2100.ejkk.ORS.LoginConf", "DefaultLoginConf");
     }
 }
