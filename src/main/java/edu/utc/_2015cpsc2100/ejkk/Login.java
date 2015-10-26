@@ -27,7 +27,7 @@ import javax.security.auth.login.LoginContext;
 import com.sun.security.auth.callback.TextCallbackHandler;
 
 
-public static final class Login
+public final class Login
 {
     public static final void main(String... args)
     {

@@ -24,7 +24,7 @@
 package edu.utc._2015cpsc2100.ejkk;
 
 
-public static final class Properties
+public final class Properties
 {
     public static void defaultProperties()
     {
