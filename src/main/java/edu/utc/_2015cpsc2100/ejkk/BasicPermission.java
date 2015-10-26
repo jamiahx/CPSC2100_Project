@@ -24,4 +24,8 @@
 package edu.utc._2015cpsc2100.ejkk;
 
 
-public class BasicPermission extends java.security.BasicPermission {}
+public class BasicPermission extends java.security.BasicPermission
+{
+    public BasicPermission(String name)
+    {super(name);}
+}

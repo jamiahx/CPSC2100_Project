@@ -24,4 +24,8 @@
 package edu.utc._2015cpsc2100.ejkk;
 
 
-public abstract class PrivInfoPermission extends BasicPermission {}
+public abstract class PrivInfoPermission extends BasicPermission
+{
+    public PrivInfoPermission(String name)
+    {super(name);}
+}
