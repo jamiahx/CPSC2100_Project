@@ -31,17 +31,18 @@ import javax.security.auth.Destroyable;
 
 public abstract class PrivInfo implements Destroyable
 {
-    private static ConcurrentHashMap<UUID, GuardedObject> PrivInfoDB;
+//    private static ConcurrentHashMap<UUID, GuardedObject> PrivInfoDB;
 
-    public final PrivInfo getPrivInfo(UUID owner)
-    {
-	return PrivInfoDB.get(UUID_Generator.gen(owner, this.getClass.toString()));
-    }
+    //public final PrivInfo getPrivInfo(UUID owner)
+    //{
+    //return PrivInfoDB.get(UUID_Generator.gen(owner, this.getClass.toString()));
+    //}
 
-//    protected PrivInfo(UUID owner)
-//    {
-//	PrivInfoDB.put(UUID_Generator.gen(owner, this.getClass.toString()), this);
-//    }
+    //    protected PrivInfo(UUID owner)
+    //    {
+    //	PrivInfoDB.put(UUID_Generator.gen(owner, this.getClass.toString()), this);
+    //    }
 
-    public static GuardedObject getGuardedInfo(UUID owner) {return PrivInfoDB.get(owner);}
+    //public static GuardedObject getGuardedInfo(UUID owner) {return PrivInfoDB.get(owner);}
 }
+
