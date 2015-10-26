@@ -32,8 +32,9 @@ public static final class Login
     public static final void main(String... args)
     {
 	LoginContext login
-	    = new LoginContext(System.getProperty("edu.utc._2015cpsc2100.ejkk.ORS.LoginConf"),
-			       new TextCallbackHandler());
+	    = new LoginContext
+	    ( System.getProperty("edu.utc._2015cpsc2100.ejkk.ORS.LoginConf"),
+	      new TextCallbackHandler());
 	login.login();
     }
 }
