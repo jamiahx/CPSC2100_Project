@@ -65,7 +65,7 @@ public class Searcher
         		holder.add(resultObjects);
         		Searcher temp = new Searcher(holder);
         		resultObjects.clear();
-        		resultObjects.add(Searcher.search(spList.get(i)));
+        		resultObjects.add(this.search(spList.get(i)));
 		    }
 	    }
     }
