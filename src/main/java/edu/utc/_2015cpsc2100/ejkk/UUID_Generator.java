@@ -106,12 +106,18 @@ public final class UUID_Generator
     }
 
     public static UUID
-	gen(UUID rootNamespaceID, String firstNamespace, String... furtherNames )
+	gen(UUID rootNamespaceID, String... nestingNames )
     {
-	return gen( gen( rootNamespaceID,
-			 firstNamespace ),
-		    furtherNames )
-	    ;
+	UUID buffer = rootNamespaceID;
+	for (String name : nestingNames)
+	    buffer = gen(buffer, name);
+	return buffer;
+    }
+
+    private static UUID
+	gen( UUID namespaceID )
+    {
+	return namespaceID;
     }
     
     /**
