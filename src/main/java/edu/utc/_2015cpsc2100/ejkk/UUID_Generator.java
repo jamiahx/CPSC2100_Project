@@ -108,7 +108,10 @@ public final class UUID_Generator
     public static UUID
 	gen(UUID rootNamespaceID, String firstNamespace, String... furtherNames )
     {
-	return gen(gen(rootNamespaceID, firstNamespace), furtherNames);
+	return gen( gen( rootNamespaceID,
+			 firstNamespace ),
+		    furtherNames )
+	    ;
     }
     
     /**
@@ -124,27 +127,26 @@ public final class UUID_Generator
     }
 
     /**
-	 * Instanciates a UUID_Generator using an already-generated
-	 * UUID as the namespaceID
-	 * @param namespaceID pre-generated UUID to use as the namespace
-	 */
-	public UUID_Generator( UUID namespaceID )
-	    {
-		this.namespaceID = namespaceID
-		    ;
-	    }
-	/**
-	 * Instanciates a UUID_Generator using an auto-generated UUID
-	 * as the namespaceID
-	 *
-	 * @param prevNamespaceID UUID for the namespace that encloses the current one
-	 * @param namespaceName name of the current namespace
-	 */
-	public UUID_Generator( UUID prevNamespaceID , String namespaceName )
-	    {
-		namespaceID = gen( prevNamespaceID , namespaceName )
-		    ;
-	    }
+     * Instanciates a UUID_Generator using an already-generated
+     * UUID as the namespaceID
+     * @param namespaceID pre-generated UUID to use as the namespace
+     */
+    public UUID_Generator( UUID namespaceID )
+    {
+	this.namespaceID = namespaceID
+	    ;
+    }
+    /**
+     * Instanciates a UUID_Generator using an auto-generated UUID
+     * as the namespaceID
+     *
+     * @param prevNamespaceID UUID for the namespace that encloses the current one
+     * @param namespaceName name of the current namespace
+     */
+    public UUID_Generator( UUID prevNamespaceID , String namespaceName )
+    {
+	namespaceID = gen( prevNamespaceID , namespaceName )
+	    ;
+    }
 
-	public UUID_Generator( String namespap
-			       }
+}
