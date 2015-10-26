@@ -68,5 +68,6 @@ public class Searcher
         		resultObjects.add(this.search(spList.get(i)));
 		    }
 	    }
+	return resultObjects;
     }
 }
