@@ -37,7 +37,6 @@ public final class User implements Principal
 	= new UUID_Generator(UUID_Generator.gen(new UUID(0,0),
 						Settings.getSystemName()),
 			     "User");
-    private static ConcurrentHashMap<UUID, User> userDB;
 
     public String getUsername()
     {
@@ -58,10 +57,10 @@ public final class User implements Principal
     {
 	this.username = username;
 	UUID uuid = user_UUID_generator.gen(this.username);
-	if (userDB.containsKey(uuid))
+	if (Privinfo.guardedUserDB.getObject().containsKey(uuid))
 	    throw new NameAlreadyBoundException("Username already taken");
 
 	PrivInfo.guardedNameDB.getObject().put(uuid, name);
-	userDB.put(uuid, this);
+	PrivInfo.guardedUserDB.getObject().put(uuid, this);
     }
 }

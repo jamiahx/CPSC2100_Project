@@ -34,5 +34,8 @@ public class PrivInfo
     public static GuardedObject guardedNameDB
 	= new GuardedObject(new ConcurrentHashMap<UUID, Name>(),
 			    new BasicPermission());
+    public static GuardedObject guardedUserDB
+	= new GuardedObject(new ConcurrentHashMap<UUID, User>(),
+			    new BasicPermission());
 }
 
