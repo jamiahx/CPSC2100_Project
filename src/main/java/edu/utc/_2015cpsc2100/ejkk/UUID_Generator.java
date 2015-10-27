@@ -44,7 +44,7 @@ public final class UUID_Generator
      * @param name name of thing for which we are generating a UUID
      */
     public static UUID
-	gen( UUID namespaceID , String name ) throws NoSuchAlgorithmException
+	gen( UUID namespaceID , String name )
     {	byte[] namespaceIDBytes = 
 	    ByteBuffer
 	    .allocateDirect(16)
@@ -80,11 +80,19 @@ public final class UUID_Generator
 			   nameBytes.length
 			   )
 	    ;
-	byte[] hash =
-	    MessageDigest
-	    .getInstance( "SHA-1" )
-	    .digest( concatenatedBytes )
-	    ;
+	byte[] hash = null;
+	try {
+	    hash = MessageDigest
+		.getInstance( "SHA-1" )
+		.digest( concatenatedBytes )
+		;
+	}
+	catch (NoSuchAlgorithmException failure)
+	    {
+		System.err.println("Hash failed: SHA-1 unavailable.");
+		System.err.println(failure.getMessage());
+		System.exit(-1);
+	    }
 	hash[ 7 ] =
 	    (byte) (( hash[ 7 ]
 		      & 0b0000_1111
@@ -108,7 +116,6 @@ public final class UUID_Generator
 
     public static UUID
 	gen(UUID rootNamespaceID, String... nestingNames )
-	throws NoSuchAlgorithmException
     {
 	UUID buffer = rootNamespaceID;
 	for (String name : nestingNames)
@@ -117,7 +124,7 @@ public final class UUID_Generator
     }
 
     private static UUID
-	gen( UUID namespaceID ) throws NoSuchAlgorithmException
+	gen( UUID namespaceID )
     {
 	return namespaceID;
     }
@@ -152,9 +159,8 @@ public final class UUID_Generator
      * @param namespaceName name of the current namespace
      */
     public UUID_Generator( UUID prevNamespaceID , String namespaceName )
-	throws NoSuchAlgorithmException
     {
-	namespaceID = gen( prevNamespaceID , namespaceName )
+	this.namespaceID = gen( prevNamespaceID , namespaceName )
 	    ;
     }
 
