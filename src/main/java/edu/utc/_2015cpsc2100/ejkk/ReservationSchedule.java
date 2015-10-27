@@ -55,7 +55,7 @@ public class ReservationSchedule
      */
     public Reservation get(int resNumber)
     {
-	Reservation result;
+	Reservation result = null;
 	for (int i = 0; i < resList.size(); i++)
 	    {
 		if (resNumber == resList.get(i).resNumber)
