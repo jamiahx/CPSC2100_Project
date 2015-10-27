@@ -43,7 +43,7 @@ public final class UUID_Generator
      * @param name name of thing for which we are generating a UUID
      */
     public static UUID
-    gen( UUID namespaceID , String name )
+	gen( UUID namespaceID , String name )
     {	byte[] namespaceIDBytes = 
 	    ByteBuffer
 	    .allocateDirect(16)
@@ -86,15 +86,15 @@ public final class UUID_Generator
 	    ;
 	hash[ 7 ] =
 	    ( hash[ 7 ]
-	      & 0b0000_1111
+	      & (byte) 0b0000_1111
 	    )
-	    | 0b0101_0000
+	    | (byte) 0b0101_0000
 	    ;
 	hash[ 8 ] =
 	    ( hash[ 8 ]
-	      & 0b0011_1111
+	      & (byte) 0b0011_1111
 	    )
-	    | 0b1000_0000
+	    | (byte) 0b1000_0000
 	    ;
 	ByteBuffer hashBB =
 	    ByteBuffer
