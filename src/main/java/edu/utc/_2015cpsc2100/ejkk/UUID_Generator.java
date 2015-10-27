@@ -24,6 +24,7 @@
 package edu.utc._2015cpsc2100.ejkk;
 
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.stream.Stream;
 import java.util.UUID;
@@ -43,7 +44,7 @@ public final class UUID_Generator
      * @param name name of thing for which we are generating a UUID
      */
     public static UUID
-	gen( UUID namespaceID , String name )
+	gen( UUID namespaceID , String name ) throws NoSuchAlgorithmException
     {	byte[] namespaceIDBytes = 
 	    ByteBuffer
 	    .allocateDirect(16)
@@ -106,7 +107,8 @@ public final class UUID_Generator
     }
 
     public static UUID
-    gen(UUID rootNamespaceID, String... nestingNames )
+	gen(UUID rootNamespaceID, String... nestingNames )
+	throws NoSuchAlgorithmException
     {
 	UUID buffer = rootNamespaceID;
 	for (String name : nestingNames)
@@ -115,44 +117,45 @@ public final class UUID_Generator
     }
 
     private static UUID
-	    gen( UUID namespaceID )
-	{
-	    return namespaceID;
-	}
-    
-	/**
-	 * Generate an RFC4122 version 5 UUID. Identical to
-	 * generateUUID(UUID namespaceID, String name) but uses 
-	 * an already-generated UUID of the current namespace
-	 * as namespaceID.
-	 * @param name name of thing for which we are generating a UUID
-	 */
-	public UUID gen( String name )
-	{   return gen( this.namespaceID , name )
-		;
-	}
-
-	/**
-	 * Instanciates a UUID_Generator using an already-generated
-	 * UUID as the namespaceID
-	 * @param namespaceID pre-generated UUID to use as the namespace
-	 */
-	public UUID_Generator( UUID namespaceID )
-	    {
-		this.namespaceID = namespaceID
-		    ;
-	    }
-	/**
-	 * Instanciates a UUID_Generator using an auto-generated UUID
-	 * as the namespaceID
-	 *
-	 * @param prevNamespaceID UUID for the namespace that encloses the current one
-	 * @param namespaceName name of the current namespace
-	 */
-	public UUID_Generator( UUID prevNamespaceID , String namespaceName )
-	    {
-		namespaceID = gen( prevNamespaceID , namespaceName )
-		    ;
-	    }
-
+	gen( UUID namespaceID ) throws NoSuchAlgorithmException
+    {
+	return namespaceID;
     }
+    
+    /**
+     * Generate an RFC4122 version 5 UUID. Identical to
+     * generateUUID(UUID namespaceID, String name) but uses 
+     * an already-generated UUID of the current namespace
+     * as namespaceID.
+     * @param name name of thing for which we are generating a UUID
+     */
+    public UUID gen( String name )
+    {   return gen( this.namespaceID , name )
+	    ;
+    }
+
+    /**
+     * Instanciates a UUID_Generator using an already-generated
+     * UUID as the namespaceID
+     * @param namespaceID pre-generated UUID to use as the namespace
+     */
+    public UUID_Generator( UUID namespaceID )
+    {
+	this.namespaceID = namespaceID
+	    ;
+    }
+    /**
+     * Instanciates a UUID_Generator using an auto-generated UUID
+     * as the namespaceID
+     *
+     * @param prevNamespaceID UUID for the namespace that encloses the current one
+     * @param namespaceName name of the current namespace
+     */
+    public UUID_Generator( UUID prevNamespaceID , String namespaceName )
+	throws NoSuchAlgorithmException
+    {
+	namespaceID = gen( prevNamespaceID , namespaceName )
+	    ;
+    }
+
+}
