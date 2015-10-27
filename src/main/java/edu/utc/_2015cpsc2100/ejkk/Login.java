@@ -31,10 +31,35 @@ public final class Login
 {
     public static final void main(String... args)
     {
-	LoginContext login
-	    = new LoginContext
-	    ( System.getProperty("edu.utc._2015cpsc2100.ejkk.ORS.LoginConf"),
-	      new TextCallbackHandler());
-	login.login();
+	try {
+	    LoginContext login
+		= new LoginContext
+		( System
+		  .getProperty("edu.utc._2015cpsc2100.ejkk.ORS.LoginConf"),
+		  new TextCallbackHandler());
+	}
+	catch (LoginException failure)
+	    {
+		System.err.println("LoginContext creation failed.");
+		System.err.println(failure.getMessage());
+		System.exit(-1);
+	    }
+	catch (SecurityException failure)
+	    {
+		System.err.println("LoginContext creation failed.");
+		System.err.println(failure.getMessage());
+		System.exit(-1);
+	    }
+	try {
+	    login.login();
+	}
+	catch (LoginException failure)
+	    {
+		System.err.println("Authentication failed.");
+		System.err.println(failure.getMessage());
+		System.exit(-1);
+	    }
+
+	System.out.println("Authentication succeeded.");
     }
 }
