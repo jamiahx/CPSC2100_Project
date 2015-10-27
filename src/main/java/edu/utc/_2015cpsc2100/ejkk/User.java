@@ -33,8 +33,13 @@ import java.security.Principal;
 public final class User implements Principal
 {
     private final String username;
-    public GuardedObject guardedName; /// Hide me behind a GuardObject
-    private static final UUID_Generator user_UUID_generator = new UUID_Generator(UUID_Generator.gen(new UUID(0,0), Settings.getSystemName()), "User");
+    public static GuardedObject guardedNameDB
+	= new GuardedObject(new ConcurrentHashMap<UUID, Name>(),
+			    new BasicPermission());
+    private static final UUID_Generator user_UUID_generator
+	= new UUID_Generator(UUID_Generator.gen(new UUID(0,0),
+						Settings.getSystemName()),
+			     "User");
     private static ConcurrentHashMap<UUID, User> userDB;
 
     public String getUsername()
@@ -54,12 +59,12 @@ public final class User implements Principal
 
     public User(String username, Name name) throws NameAlreadyBoundException
     {
-	this.guardedName = new GuardedObject(name, new BasicPermission());
 	this.username = username;
 	UUID uuid = user_UUID_generator.gen(this.username);
 	if (userDB.containsKey(uuid))
 	    throw new NameAlreadyBoundException("Username already taken");
 
+	guardedNameDB.getObject().put(uuid, name);
 	userDB.put(uuid, this);
     }
 }
