@@ -57,7 +57,7 @@ public final class User implements Principal
     {
 	this.username = username;
 	UUID uuid = user_UUID_generator.gen(this.username);
-	if (Privinfo.guardedUserDB.getObject().containsKey(uuid))
+	if (PrivInfo.guardedUserDB.getObject().containsKey(uuid))
 	    throw new NameAlreadyBoundException("Username already taken");
 
 	PrivInfo.guardedNameDB.getObject().put(uuid, name);
