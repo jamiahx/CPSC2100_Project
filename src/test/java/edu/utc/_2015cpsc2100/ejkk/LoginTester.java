@@ -23,11 +23,13 @@
 
 package edu.utc._2015cpsc2100.ejkk;
 
+import com.sun.security.auth.callback.TextCallbackHandler;
+
 
 public final class LoginTester
 {
     public static final void main(String[] args)
     {
-	Login.main();
+	Login.login(new TextCallbackHandler());
     }
 }

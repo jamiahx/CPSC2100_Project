@@ -25,19 +25,19 @@ package edu.utc._2015cpsc2100.ejkk;
 
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
-import com.sun.security.auth.callback.TextCallbackHandler;
+import javax.security.auth.callback.CallbackHandler;
 
 
 public final class Login
 {
-    public static final void main(String... args)
+    public static final Subject login(CallbackHandler callbackHandler)
     {
 	LoginContext login = null;
 	try {
 	    login = new LoginContext
 		( System
 		  .getProperty("edu.utc._2015cpsc2100.ejkk.ORS.LoginConf"),
-		  new TextCallbackHandler());
+		  callbackHandler);
 	}
 	catch (LoginException failure)
 	    {
@@ -54,7 +54,8 @@ public final class Login
 		System.err.println(failure.getMessage());
 		System.exit(-1);
 	    }
-
 	System.out.println("Authentication succeeded.");
+	return login.getSubject();
+
     }
 }
