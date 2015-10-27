@@ -33,9 +33,6 @@ import java.security.Principal;
 public final class User implements Principal
 {
     private final String username;
-    public static GuardedObject guardedNameDB
-	= new GuardedObject(new ConcurrentHashMap<UUID, Name>(),
-			    new BasicPermission());
     private static final UUID_Generator user_UUID_generator
 	= new UUID_Generator(UUID_Generator.gen(new UUID(0,0),
 						Settings.getSystemName()),
@@ -64,7 +61,7 @@ public final class User implements Principal
 	if (userDB.containsKey(uuid))
 	    throw new NameAlreadyBoundException("Username already taken");
 
-	guardedNameDB.getObject().put(uuid, name);
+	PrivInfo.guardedNameDB.getObject().put(uuid, name);
 	userDB.put(uuid, this);
     }
 }
