@@ -38,6 +38,7 @@ public class Searcher
     }
 	
     public ArrayList<Object> search(SearchParameter sp)
+	throws IllegalAccessException
     {
     	ArrayList<Object> resultObjects = new ArrayList<Object>();
     	for (int i = 0; i < searchableList.size(); i++)
