@@ -85,16 +85,16 @@ public final class UUID_Generator
 	    .digest( concatenatedBytes )
 	    ;
 	hash[ 7 ] =
-	    ( hash[ 7 ]
-	      & (byte) 0b0000_1111
-	    )
-	    | (byte) 0b0101_0000
+	    (byte) (( hash[ 7 ]
+		      & 0b0000_1111
+		    )
+		    | 0b0101_0000)
 	    ;
 	hash[ 8 ] =
-	    ( hash[ 8 ]
-	      & (byte) 0b0011_1111
-	    )
-	    | (byte) 0b1000_0000
+	    (byte) (( hash[ 8 ]
+		      & 0b0011_1111
+		    )
+		    | 0b1000_0000)
 	    ;
 	ByteBuffer hashBB =
 	    ByteBuffer
@@ -106,7 +106,7 @@ public final class UUID_Generator
     }
 
     public static UUID
-	gen(UUID rootNamespaceID, String... nestingNames )
+    gen(UUID rootNamespaceID, String... nestingNames )
     {
 	UUID buffer = rootNamespaceID;
 	for (String name : nestingNames)
@@ -115,44 +115,44 @@ public final class UUID_Generator
     }
 
     private static UUID
-	gen( UUID namespaceID )
-    {
-	return namespaceID;
-    }
+	    gen( UUID namespaceID )
+	{
+	    return namespaceID;
+	}
     
-    /**
-     * Generate an RFC4122 version 5 UUID. Identical to
-     * generateUUID(UUID namespaceID, String name) but uses 
-     * an already-generated UUID of the current namespace
-     * as namespaceID.
-     * @param name name of thing for which we are generating a UUID
-     */
-    public UUID gen( String name )
-    {   return gen( this.namespaceID , name )
-	    ;
-    }
+	/**
+	 * Generate an RFC4122 version 5 UUID. Identical to
+	 * generateUUID(UUID namespaceID, String name) but uses 
+	 * an already-generated UUID of the current namespace
+	 * as namespaceID.
+	 * @param name name of thing for which we are generating a UUID
+	 */
+	public UUID gen( String name )
+	{   return gen( this.namespaceID , name )
+		;
+	}
 
-    /**
-     * Instanciates a UUID_Generator using an already-generated
-     * UUID as the namespaceID
-     * @param namespaceID pre-generated UUID to use as the namespace
-     */
-    public UUID_Generator( UUID namespaceID )
-    {
-	this.namespaceID = namespaceID
-	    ;
-    }
-    /**
-     * Instanciates a UUID_Generator using an auto-generated UUID
-     * as the namespaceID
-     *
-     * @param prevNamespaceID UUID for the namespace that encloses the current one
-     * @param namespaceName name of the current namespace
-     */
-    public UUID_Generator( UUID prevNamespaceID , String namespaceName )
-    {
-	namespaceID = gen( prevNamespaceID , namespaceName )
-	    ;
-    }
+	/**
+	 * Instanciates a UUID_Generator using an already-generated
+	 * UUID as the namespaceID
+	 * @param namespaceID pre-generated UUID to use as the namespace
+	 */
+	public UUID_Generator( UUID namespaceID )
+	    {
+		this.namespaceID = namespaceID
+		    ;
+	    }
+	/**
+	 * Instanciates a UUID_Generator using an auto-generated UUID
+	 * as the namespaceID
+	 *
+	 * @param prevNamespaceID UUID for the namespace that encloses the current one
+	 * @param namespaceName name of the current namespace
+	 */
+	public UUID_Generator( UUID prevNamespaceID , String namespaceName )
+	    {
+		namespaceID = gen( prevNamespaceID , namespaceName )
+		    ;
+	    }
 
-}
+    }
