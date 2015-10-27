@@ -24,6 +24,7 @@
 package edu.utc._2015cpsc2100.ejkk;
 
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 
 public final class PassHash extends PrivInfo
@@ -38,7 +39,7 @@ public final class PassHash extends PrivInfo
 	this.passHash = passHash;
     }
 
-    public PassHash(String pass)
+    public PassHash(String pass) throws NoSuchAlgorithmException
     {
 	passHash = MessageDigest.getInstance("SHA-512").digest(pass.getBytes());
     }

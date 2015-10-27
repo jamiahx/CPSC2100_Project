@@ -26,6 +26,7 @@ package edu.utc._2015cpsc2100.ejkk;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.lang.reflect.InvocationTargetException;
 
 
 public class Searcher
@@ -34,39 +35,40 @@ public class Searcher
 	
     public Searcher(ArrayList<Object> listOfObjects)
     {
-    	searchableList = listOfObjects;
+	searchableList = listOfObjects;
     }
 	
     public ArrayList<Object> search(SearchParameter sp)
-	throws IllegalAccessException
+	throws IllegalAccessException, InvocationTargetException
     {
-    	ArrayList<Object> resultObjects = new ArrayList<Object>();
-    	for (int i = 0; i < searchableList.size(); i++)
+	ArrayList<Object> resultObjects = new ArrayList<Object>();
+	for (int i = 0; i < searchableList.size(); i++)
 	    {
-    		if (sp.method.invoke(searchableList.get(i)).equals(sp.result))
+		if (sp.method.invoke(searchableList.get(i)).equals(sp.result))
 		    {
-    			resultObjects.add(searchableList.get(i));
+			resultObjects.add(searchableList.get(i));
 		    }
 	    }
-    	return resultObjects;
+	return resultObjects;
     }
     
     public ArrayList<Object> searchMultiple(ArrayList<SearchParameter> spList)
+	throws IllegalAccessException, InvocationTargetException
     {
-    	ArrayList<Object> resultObjects = new ArrayList<Object>();
-    	for (int i = 0; i < spList.size(); i++)
+	ArrayList<Object> resultObjects = new ArrayList<Object>();
+	for (int i = 0; i < spList.size(); i++)
 	    {
-    		if (i == 0)
+		if (i == 0)
 		    {
-    			resultObjects.add(search(spList.get(i)));
+			resultObjects.add(search(spList.get(i)));
 		    }
-    		else
+		else
 		    {
-    			ArrayList<Object> holder = new ArrayList<Object>();
-        		holder.add(resultObjects);
-        		Searcher temp = new Searcher(holder);
-        		resultObjects.clear();
-        		resultObjects.add(this.search(spList.get(i)));
+			ArrayList<Object> holder = new ArrayList<Object>();
+			holder.add(resultObjects);
+			Searcher temp = new Searcher(holder);
+			resultObjects.clear();
+			resultObjects.add(this.search(spList.get(i)));
 		    }
 	    }
 	return resultObjects;
