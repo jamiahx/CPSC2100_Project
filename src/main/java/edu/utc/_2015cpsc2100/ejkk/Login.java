@@ -36,9 +36,8 @@ public final class Login
 	LoginContext login = null;
 	try {
 	    login = new LoginContext
-		( System
-		  .getProperty("edu.utc._2015cpsc2100.ejkk.ORS.LoginConf"),
-		  callbackHandler);
+		( "edu.utc._2015cpsc2100.ejkk.ORS",
+		  callbackHandler );
 	}
 	catch (LoginException failure)
 	    {
