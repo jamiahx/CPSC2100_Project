@@ -24,6 +24,7 @@
 package edu.utc._2015cpsc2100.ejkk;
 
 import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
 import com.sun.security.auth.callback.TextCallbackHandler;
 
 
@@ -31,20 +32,14 @@ public final class Login
 {
     public static final void main(String... args)
     {
+	LoginContext login = null;
 	try {
-	    LoginContext login
-		= new LoginContext
+	    login = new LoginContext
 		( System
 		  .getProperty("edu.utc._2015cpsc2100.ejkk.ORS.LoginConf"),
 		  new TextCallbackHandler());
 	}
 	catch (LoginException failure)
-	    {
-		System.err.println("LoginContext creation failed.");
-		System.err.println(failure.getMessage());
-		System.exit(-1);
-	    }
-	catch (SecurityException failure)
 	    {
 		System.err.println("LoginContext creation failed.");
 		System.err.println(failure.getMessage());
