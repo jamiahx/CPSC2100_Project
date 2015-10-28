@@ -36,11 +36,5 @@ public class PrivInfo
 	<ConcurrentHashMap, PrivInfoPermission>
 	(new ConcurrentHashMap<UUID, Name>(),
 	 new PrivInfoPermission("NameDB"));
-    public static GuardedObject
-	<ConcurrentHashMap, PrivInfoPermission> guardedUserDB
-	= new GuardedObject
-	<ConcurrentHashMap, PrivInfoPermission>
-	(new ConcurrentHashMap<UUID, User>(),
-	 new PrivInfoPermission("UserDB"));
 }
 
