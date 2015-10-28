@@ -12,6 +12,27 @@
       <url>https://www.gnu.org/licenses/gpl-3.0.html</url>
     </license>
   </licenses>
+  <developers>
+    <developer>
+      <id>emma11gene</id>
+      <name>Emma Perez</name>
+    </developer>
+    <developer>
+      <id>jamiahx</id>
+      <name>Jeremiah Gaertner</name>
+      <email>jamiahx@gmail.com</email>
+    </developer>
+    <developer>
+      <id>kpsanchez</id>
+      <name>Kaleb Sanchez</name>
+      <email>kalebsanchez23@yahoo.com</email>
+    </developer>
+    <developer>
+      <id>ksiprelle</id>
+      <name>Kate Siprelle</name>
+      <email>ksiprelle@gmail.com</email>
+    </developer>
+  </developers>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
