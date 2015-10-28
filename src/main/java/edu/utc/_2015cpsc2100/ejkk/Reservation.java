@@ -24,6 +24,7 @@
 package edu.utc._2015cpsc2100.ejkk;
 
 import java.util.ArrayList;
+import java.security.Principal;
 
 
 public class Reservation
@@ -31,7 +32,7 @@ public class Reservation
     private Date pickUpDate;
     private Date dropOffDate;
     private Vehicle vehicle;
-    private Customer customer;
+    private Principal customer;
     private int ccNumber;
     private int reservationDates; //what is this again???
     private int price;
@@ -41,7 +42,7 @@ public class Reservation
     public Date getPickUpDate() { return pickUpDate; }
     public Date getDropOffDate() { return dropOffDate; }
     public Vehicle getVehicle() { return vehicle; }
-    public Customer getCustomer() { return customer; }
+    public Principal getCustomer() { return customer; }
     public int getCreditCardInfo() { return ccNumber; }
     public int getReservationDates() { return reservationDates; }
     public int getPrice() { return price; }
@@ -51,10 +52,10 @@ public class Reservation
      * @param pickUp	the date on which the customer is rented the car
      * @param dropOff	the date on which the customer must return the car
      * @param vehicle	the vehicle which the customer is renting
-     * @param customer	the customer who reserved the vehicle
+     * @param customer	the customer principal who reserved the vehicle
      * @param ccNumber	the credit card number of the customer
      */
-    public Reservation(Date pickUp, Date dropOff, Vehicle vehicle, Customer customer, int ccNumber)
+    public Reservation(Date pickUp, Date dropOff, Vehicle vehicle, Principal customer, int ccNumber)
     {
 	reservationNumber++;
 	pickUpDate = pickUp;
@@ -84,12 +85,12 @@ public class Reservation
     
     public void validateCC(int ccNumber) // Need to validate cc ?! 
     {
-    	// store number in an array
-    	// if ( ccNumber = array.size() == 16)
-    	// return true
-    	// or string "Card is valid"
-    	// else 
-    	// return false
-    	// or string "Card is invalid"
+	// store number in an array
+	// if ( ccNumber = array.size() == 16)
+	// return true
+	// or string "Card is valid"
+	// else 
+	// return false
+	// or string "Card is invalid"
     }
 }
