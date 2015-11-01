@@ -34,7 +34,7 @@ public class Vehicle {
     private String model;
     private Year year;
     private String category;
-    protected Integer rate;
+    protected int rate;
     protected String description;
 
     public String getMake(){return make;}
@@ -68,18 +68,18 @@ public class Vehicle {
     }
 	
     /**
-	 * To convert the items in the array list to strings. 
-	 */
-	public String toString()
-	{
-	    return (make + "," + model + "," + year.toString() + "," + category + "," + rate + "," + description);
-	}
-    
-	public void update(int rate, String description)
-	{
-	    this.rate = rate;
-	    this.description = description;
-    	
-	}
+     * To convert the items in the array list to strings. 
+     */
+    public String toString()
+    {
+	return (make + "," + model + "," + year.toString() + "," + category + "," + rate + "," + description);
     }
+    
+    public void update(int rate, String description)
+    {
+	this.rate = rate;
+	this.description = description;
+    	
+    }
+}
 
