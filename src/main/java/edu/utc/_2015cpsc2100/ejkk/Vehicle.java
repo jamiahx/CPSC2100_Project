@@ -24,14 +24,17 @@
 package edu.utc._2015cpsc2100.ejkk;
 
 import java.time.Year;
+import javax.persistence.Entity;
 
+
+@Entity
 public class Vehicle {
 
-    private final String make;
-    private final String model;
-    private final Year year;
-    private final String category;
-    protected int rate;
+    private String make;
+    private String model;
+    private Year year;
+    private String category;
+    protected Integer rate;
     protected String description;
 
     public String getMake(){return make;}
@@ -41,6 +44,9 @@ public class Vehicle {
     public int getRate(){return rate;}
     public String getDescription(){return description;}
 
+
+    protected Vehicle(){}
+    
     /**
      * Vehicle constructor for the Vehicle class
      * @param make Vehicle Manufacturer
@@ -50,7 +56,8 @@ public class Vehicle {
      * @param rate Price per day rented
      * @param description Vehicle description
      */
-    public Vehicle(String make, String model, Year year, String category, int rate, String description)
+    public Vehicle(String make, String model, Year year, String category,
+		   int rate, String description)
     {
 	this.make = make;
 	this.model = model;
@@ -61,18 +68,18 @@ public class Vehicle {
     }
 	
     /**
-     * To convert the items in the array list to strings. 
-     */
-    public String toString()
-    {
-	return (make + "," + model + "," + year.toString() + "," + category + "," + rate + "," + description);
-    }
+	 * To convert the items in the array list to strings. 
+	 */
+	public String toString()
+	{
+	    return (make + "," + model + "," + year.toString() + "," + category + "," + rate + "," + description);
+	}
     
-    public void update(int rate, String description)
-    {
-    	this.rate = rate;
-    	this.description = description;
+	public void update(int rate, String description)
+	{
+	    this.rate = rate;
+	    this.description = description;
     	
+	}
     }
-}
 
