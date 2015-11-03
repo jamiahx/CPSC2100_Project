@@ -33,7 +33,6 @@ public class Reservation
     private Date dropOffDate;
     private Vehicle vehicle;
     private Principal customer;
-    private int ccNumber;
     private int reservationDates; //what is this again???
     private int price;
     private static int reservationNumber;
