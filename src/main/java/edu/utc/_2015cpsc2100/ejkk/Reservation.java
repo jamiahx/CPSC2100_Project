@@ -25,6 +25,7 @@ package edu.utc._2015cpsc2100.ejkk;
 
 import java.util.ArrayList;
 import java.security.Principal;
+import java.sql.Time;
 import javax.persistence.*;
 
 
@@ -33,46 +34,40 @@ import javax.persistence.*;
 public class Reservation
 {
     @Id
+    @GeneratedValue(strategy=SEQUENCE, generator="RES_NUM")
+    private int resNumber;
     @ManyToOne(cascade=persist)
     private Vehicle vehicle;
-    @Id
-    private Date pickUpDate;
-    private Date dropOffDate;
+    private Time pickUpTime;
+    private Time dropOffTime;
     private Principal customer;
-    private int reservationDates; //what is this again???
     private int price;
-    private static int reservationNumber;
-    private int resNumber;
 
 
-
-    public Date getPickUpDate() { return pickUpDate; }
-    public Date getDropOffDate() { return dropOffDate; }
+    public Date getPickUpTime() { return pickUpTime; }
+    public Date getDropOffTime() { return dropOffTime; }
     public Vehicle getVehicle() { return vehicle; }
     public Principal getCustomer() { return customer; }
-    public int getCreditCardInfo() { return ccNumber; }
     public int getReservationDates() { return reservationDates; }
     public int getPrice() { return price; }
 	
     /**
      * Creates a reservation object which stores temporal, vehicle, and customer information.
-     * @param pickUp	the date on which the customer is rented the car
-     * @param dropOff	the date on which the customer must return the car
+     * @param pickUp	the time at which the customer is scheduled to pick up
+     *                  the car
+     * @param dropOff	the time at which the customer is scheduled to drop off
+     *                  the car
      * @param vehicle	the vehicle which the customer is renting
      * @param customer	the customer principal who reserved the vehicle
-     * @param ccNumber	the credit card number of the customer
      */
-    public Reservation(Date pickUp, Date dropOff, Vehicle vehicle, Principal customer, int ccNumber)
+    public Reservation(Vehicle vehicle, Time pickUp, Time dropOff,
+		       Principal customer)
     {
-	reservationNumber++;
-	pickUpDate = pickUp;
-	dropOffDate = dropOff;
+	pickUpTime = pickUp;
+	dropOffTime = dropOff;
 	this.vehicle = vehicle;
 	this.customer = customer;
-	this.ccNumber = ccNumber;
-	reservationDates = pickUpDate.daysUntil(dropOffDate);
-	price = vehicle.rate * reservationDates;
-	resNumber = reservationNumber;
+	price = vehicle.rate * (dropOffTime - pickUpTime);
     }
 	
     /**
@@ -82,7 +77,7 @@ public class Reservation
     public String toString()
     {
 	String s = "";
-	s = s + "Dates: " +  pickUpDate.toShortString() + " - " + dropOffDate.toShortString() + "\n" +
+	s = s + "Times: " +  pickUpTime.toShortString() + " - " + dropOffDate.toShortString() + "\n" +
 	    "Vehicle: " + vehicle.toString() + "\n" +
 	    "Customer: " + customer.getName() + "\n" +
 	    "Price: " + price + "\n" +
@@ -90,14 +85,4 @@ public class Reservation
 	return s;
     }
     
-    public void validateCC(int ccNumber) // Need to validate cc ?! 
-    {
-	// store number in an array
-	// if ( ccNumber = array.size() == 16)
-	// return true
-	// or string "Card is valid"
-	// else 
-	// return false
-	// or string "Card is invalid"
-    }
 }
