@@ -25,7 +25,8 @@ package edu.utc._2015cpsc2100.ejkk;
 
 import java.util.ArrayList;
 import java.security.Principal;
-import java.sql.Time;
+import java.util.Date;
+import java.time.Duration;
 import javax.persistence.*;
 
 
@@ -34,18 +35,22 @@ import javax.persistence.*;
 public class Reservation
 {
     @Id
-    @GeneratedValue(strategy=SEQUENCE, generator="RES_NUM")
-    private int resNumber;
     @ManyToOne(cascade=persist)
     private Vehicle vehicle;
-    private Time pickUpTime;
-    private Time dropOffTime;
+    @Id
+    private Date pickUpTime;
+    private Date dropOffTime;
     private Principal customer;
     private int price;
 
 
     public Date getPickUpTime() { return pickUpTime; }
     public Date getDropOffTime() { return dropOffTime; }
+    public Duration getDuration()
+    {
+	return Duration.between(pickUpTime.toInstant(),
+				dropOffTime.toInstant());
+    }
     public Vehicle getVehicle() { return vehicle; }
     public Principal getCustomer() { return customer; }
     public int getReservationDates() { return reservationDates; }
@@ -60,14 +65,14 @@ public class Reservation
      * @param vehicle	the vehicle which the customer is renting
      * @param customer	the customer principal who reserved the vehicle
      */
-    public Reservation(Vehicle vehicle, Time pickUp, Time dropOff,
+    public Reservation(Vehicle vehicle, Date pickUp, Date dropOff,
 		       Principal customer)
     {
 	pickUpTime = pickUp;
 	dropOffTime = dropOff;
 	this.vehicle = vehicle;
 	this.customer = customer;
-	price = vehicle.rate * (dropOffTime - pickUpTime);
+	price = vehicle.rate * this.getDuration().toHours();
     }
 	
     /**
@@ -76,12 +81,12 @@ public class Reservation
      */
     public String toString()
     {
-	String s = "";
-	s = s + "Times: " +  pickUpTime.toShortString() + " - " + dropOffDate.toShortString() + "\n" +
-	    "Vehicle: " + vehicle.toString() + "\n" +
-	    "Customer: " + customer.getName() + "\n" +
-	    "Price: " + price + "\n" +
-	    "Reservation Number: " + resNumber;
+	String s
+	    = "Times: " +  pickUpTime.toShortString() + " - "
+	    + dropOffTime.toShortString() + "\n"
+	    + "Vehicle: " + vehicle.toString() + "\n"
+	    + "Customer: " + customer.getName() + "\n"
+	    + "Price: " + price + "\n";
 	return s;
     }
     
