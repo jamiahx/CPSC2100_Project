@@ -24,6 +24,8 @@
 package edu.utc._2015cpsc2100.ejkk;
 
 import java.time.Year;
+import java.util.Map;
+import java.util.Date;
 import javax.persistence.*;
 
 
@@ -38,6 +40,8 @@ public class Vehicle {
     private String category;
     protected int rate;
     protected String description;
+    @OneToMany(cascade=ALL, mappedBy="vehicle")
+    protected Set<Reservation> reservations;
 
     public String getSerial(){return serial;}
     public String getMake(){return make;}

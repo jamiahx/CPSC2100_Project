@@ -35,7 +35,7 @@ import javax.persistence.*;
 public class Reservation
 {
     @Id
-    @ManyToOne(cascade=persist)
+    @ManyToOne(cascade=ALL)
     private Vehicle vehicle;
     @Id
     private Date pickUpTime;
