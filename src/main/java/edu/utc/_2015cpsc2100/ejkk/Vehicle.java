@@ -24,12 +24,14 @@
 package edu.utc._2015cpsc2100.ejkk;
 
 import java.time.Year;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 
 @Entity
 public class Vehicle {
 
+    @Id
+    private String serial;
     private String make;
     private String model;
     private Year year;
@@ -37,6 +39,7 @@ public class Vehicle {
     protected int rate;
     protected String description;
 
+    public String getSerial(){return serial;}
     public String getMake(){return make;}
     public String getModel(){return model;}
     public Year getYear(){return year;}
