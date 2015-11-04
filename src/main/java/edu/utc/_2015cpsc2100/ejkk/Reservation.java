@@ -25,19 +25,27 @@ package edu.utc._2015cpsc2100.ejkk;
 
 import java.util.ArrayList;
 import java.security.Principal;
+import javax.persistence.*;
 
 
+@Entity
+@IdClass(ReservationId.class)
 public class Reservation
 {
+    @Id
+    @ManyToOne(cascade=persist)
+    private Vehicle vehicle;
+    @Id
     private Date pickUpDate;
     private Date dropOffDate;
-    private Vehicle vehicle;
     private Principal customer;
     private int reservationDates; //what is this again???
     private int price;
     private static int reservationNumber;
-    public int resNumber;
-	
+    private int resNumber;
+
+
+
     public Date getPickUpDate() { return pickUpDate; }
     public Date getDropOffDate() { return dropOffDate; }
     public Vehicle getVehicle() { return vehicle; }
