@@ -1,12 +1,38 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>edu.utc.2015cpsc2100.ejkk</groupId>
-  <artifactId>CPSC2100_ORS</artifactId>
-  <packaging>jar</packaging>
+  <groupId>edu.utc._2015cpsc2100.ejkk</groupId>
+  <artifactId>ORS</artifactId>
+  <packaging>ear</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>CPSC2100_ORS</name>
-  <url>http://maven.apache.org</url>
+  <name>ORS</name>
+  <licenses>
+    <license>
+      <name>GNU General Public License, Version 3</name>
+      <url>https://www.gnu.org/licenses/gpl-3.0.html</url>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <id>emma11gene</id>
+      <name>Emma Perez</name>
+    </developer>
+    <developer>
+      <id>jamiahx</id>
+      <name>Jeremiah Gaertner</name>
+      <email>jamiahx@gmail.com</email>
+    </developer>
+    <developer>
+      <id>kpsanchez</id>
+      <name>Kaleb Sanchez</name>
+      <email>kalebsanchez23@yahoo.com</email>
+    </developer>
+    <developer>
+      <id>ksiprelle</id>
+      <name>Kate Siprelle</name>
+      <email>ksiprelle@gmail.com</email>
+    </developer>
+  </developers>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -14,7 +40,18 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>javax</groupId> 
+      <artifactId>javaee-api</artifactId>
+      <version>7.0</version>        
+    </dependency>
   </dependencies>
+  <scm>
+    <connection>scm:git:https://github.com/jamiahx/CPSC2100_ORS.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com:jamiahx/CPSC2100_ORS.git</developerConnection>
+    <tag>HEAD</tag>
+    <url>https://github.com/jamiahx/CPSC2100_ORS</url>
+  </scm>
   <build>
     <plugins>
       <plugin>
