@@ -26,7 +26,7 @@ package edu.utc._2015cpsc2100.ejkk;
 import java.nio.file.attribute.GroupPrincipal;
 
 
-public final class Employee implements GroupPrinciple extends Vehicle
+public final class Employee //extends Vehicle implements GroupPrinciple
 {
     private String reservation;
     private String vehicle;

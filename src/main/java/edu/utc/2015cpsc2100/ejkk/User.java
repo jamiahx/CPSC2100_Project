@@ -30,36 +30,37 @@ import javax.naming.NameAlreadyBoundException;
 import java.nio.file.attribute.UserPrincipal;
 
 
-public final class User implements UserPrincipal
+public class User //implements UserPrincipal, DELETED FINAL KEYWORD
 {
-    private final String username;
+    private String username;
     public GuardedObject guardedName; /// Hide me behind a GuardObject
-    private static final UUID_Generator user_UUID_generator = new UUID_Generator(UUID_Generator.gen(new UUID(0,0), Settings.getSystemName()), "User");
-    private static ConcurrentHashMap<UUID, User> userDB;
+   // private static final UUID_Generator user_UUID_generator = new UUID_Generator(UUID_Generator.gen(new UUID(0,0), Settings.getSystemName()), "User");
+    private static ConcurrentHashMap<UUID, User> userDB = new ConcurrentHashMap<UUID, User>();
+    private UUID uuid;
 
     public String getUsername()
     {
-	return username;
+    	return username;
     }
-    public String getName(){return getUsername();}
-    public UUID getUUID()
-    {
-	return user_UUID_generator.gen(username);
-    }
+    
+    //public UUID getUUID()
+    //{
+    //	return user_UUID_generator.gen(username);
+    //}
 
     public boolean equals(User another)
     {
-	return (this.getUUID().equals(another.getUUID()));
+    	return (this.getUUID().equals(another.getUUID()));
     }
 
     public User(String username, Name name) throws NameAlreadyBoundException
     {
-	this.name = GuardedObject(name, );
-	this.username = username;
-	UUID uuid = user_UUID_generator.gen(this.username);
-	if (userDB.containsKey(uuid))
-	    throw new NameAlreadyBoundException("Username already taken");
-
-	userDB.put(uuid, this);
+    	//NAME NOT DEFINED
+		//this.name = GuardedObject(name, null); //JERIMIAH, I PUT A NULL HERE BECAUSE THERE WAS NO 2ND PARAMETER
+		this.username = username;
+		//UUID uuid = user_UUID_generator.gen(this.username);
+		uuid = UUID.randomUUID();
+		if (userDB.containsKey(uuid)) { throw new NameAlreadyBoundException("Username already taken"); }
+		userDB.put(uuid, this);
     }
 }

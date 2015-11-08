@@ -24,22 +24,23 @@
 package edu.utc._2015cpsc2100.ejkk;
 
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import javax.security.auth.Destroyable;
+import java.security.GuardedObject;
 
 
-public abstract class PrivInfo implements Destroyable
+public abstract class PrivInfo //implements Destroyable
 {
-    private static ConcurrentHashMap<UUID, GuardedObject> PrivInfoDB;
+    private static ConcurrentHashMap<UUID, GuardedObject> PrivInfoDB = new ConcurrentHashMap<UUID, GuardedObject>();
 
-    public final PrivInfo getPrivInfo(UUID owner)
+    public final GuardedObject getPrivInfo(UUID owner) //CHANGED RETURN TYPE FROM PRIVINFO TO GUARDEDOBJECT
     {
-	return PrivInfoDB.get(UUID_Generator.gen(owner, this.getClass.toString()));
+    	return PrivInfoDB.get();
     }
-
+    
+    
     protected PrivInfo(UUID owner)
     {
-	PrivInfoDB.put(UUID_Generator.gen(owner, this.getClass.toString()), this);
+    	UUID uuid = UUID.randomUUID();
+    	PrivInfoDB.put(uuid, this);
     }
 
     public static GuardedObject getGuardedInfo(UUID owner) {return PrivInfoDB.get(owner);}

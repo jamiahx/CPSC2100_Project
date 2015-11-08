@@ -19,10 +19,9 @@
  * You should have received a copy of the GNU General Public License
  * along with CPSC2100_ORS.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-
 package edu.utc._2015cpsc2100.ejkk;
 
+import java.util.UUID;
 
 public final class Name extends PrivInfo
 {

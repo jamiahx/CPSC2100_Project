@@ -1,5 +1,5 @@
 /**
- * Copyright 2015 Emma Perez, jamiahx, Kate Siprelle, Kaleb Sanchez
+a * Copyright 2015 Emma Perez, jamiahx, Kate Siprelle, Kaleb Sanchez
  * jamiahx@gmail.com
  * kalebsanchez23@yahoo.com
  * ksiprelle@gmail.com

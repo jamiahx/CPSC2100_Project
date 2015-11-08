@@ -1,4 +1,5 @@
-public class RegistrationForm {
+public class RegistrationForm
+{
 
 	public String customerFirstName;
 	public String customerLastName;

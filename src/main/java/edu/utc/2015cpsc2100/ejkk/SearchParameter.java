@@ -34,8 +34,8 @@ public class SearchParameter
 	
     public SearchParameter(Method method, Type result)
     {
-	this.method = method;
-	this.result = result;
+    	this.method = method;
+    	this.result = result;
     }
 	
 }
