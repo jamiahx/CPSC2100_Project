@@ -1,53 +1,56 @@
 /**
- * Copyright 2015 Emma Perez, jamiahx, Kate Siprelle, Kaleb Sanchez
- * jamiahx@gmail.com
- * kalebsanchez23@yahoo.com
- * ksiprelle@gmail.com
  * 
- * This file is a part of CPSC2100_ORS.
+ * @authors Kate Siprelle, Kaleb Sanchez, Jeremiah Gaertner, Emma Perez
+ * Group # 4
  *
- * CPSC2100_ORS is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
-
- * CPSC2100_ORS is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
-
- * You should have received a copy of the GNU General Public License
- * along with CPSC2100_ORS.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-package edu.utc._2015cpsc2100.ejkk;
-
-
-public class RegistrationForm {
-
-    public String customerFirstName;
-    public String customerLastName;
+public class RegistrationForm
+{
+    public String firstName;
+    public String lastName;
     public String address;
     public String emailAddress;
     public String phoneNumber;
-    public String userName;
+    public String username;
     public String password;
+    
+    public String getFirstName() { return firstName; }
+    public String getLastName() { return lastName; }
+    public String getAddress() { return address; }
+    public String getEmailAddress() { return emailAddress; }
+    public String getPhoneNumber() { return phoneNumber; }
+    public String getUsername() { return username; }
+    public String getPassword() { return password; }
 	
-	
+    /**
+     * Creates a new RegistrationForm object.
+     * @param customerFirstName	The first name of the user that the RegistrationForm describes.
+     * @param customerLastName	The last name of the user.
+     * @param address	The address of the user.
+     * @param emailAddress	The email address of the user.
+     * @param phoneNumber	The phone number of the user.
+     * @param userName	The username of the user.
+     * @param password	The password of the user.
+     */
     public RegistrationForm(String customerFirstName, String customerLastName, String address, String emailAddress, String phoneNumber, String userName, String password)
     {
-	this.customerFirstName = customerFirstName;
-	this.customerLastName = customerLastName;
-	this.address = address;
-	this.emailAddress = emailAddress;
-	this.phoneNumber = phoneNumber;
-	this.userName = userName;
-	this.password = password;
+		this.firstName = customerFirstName;
+		this.lastName = customerLastName;
+		this.address = address;
+		this.emailAddress = emailAddress;
+		this.phoneNumber = phoneNumber;
+		this.username = userName;
+		this.password = password;
     }
 	
+    /**
+     * Converts the RegistrationForm object to a String.
+     * @return s	The String describing the RegistrationForm
+     */
     public String toString()
     {
-	return customerFirstName +" " + customerLastName + " " + address + " " + emailAddress + " " + phoneNumber + " " + userName + " " + password;
-    }
+    	String s = firstName +" " + lastName + ", " + address + ", " + emailAddress + ", " + phoneNumber + ", " + username + ", " + password;
+    	return s;
+	}
 }

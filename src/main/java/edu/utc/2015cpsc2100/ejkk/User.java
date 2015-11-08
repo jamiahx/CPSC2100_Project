@@ -1,66 +1,635 @@
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import com.microtripit.mandrillapp.lutung.MandrillApi;
+import com.microtripit.mandrillapp.lutung.model.MandrillApiError;
+import com.microtripit.mandrillapp.lutung.view.MandrillMessage;
+import com.microtripit.mandrillapp.lutung.view.MandrillMessage.Recipient;
+import com.microtripit.mandrillapp.lutung.view.MandrillMessageStatus;
+
 /**
- * Copyright 2015 Emma Perez, jamiahx, Kate Siprelle, Kaleb Sanchez
- * jamiahx@gmail.com
- * kalebsanchez23@yahoo.com
- * ksiprelle@gmail.com
  * 
- * This file is a part of CPSC2100_ORS.
+ * @authors Kate Siprelle, Kaleb Sanchez, Jeremiah Gaertner, Emma Perez
+ * Group # 4
  *
- * CPSC2100_ORS is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
-
- * CPSC2100_ORS is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
-
- * You should have received a copy of the GNU General Public License
- * along with CPSC2100_ORS.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-package edu.utc._2015cpsc2100.ejkk;
-
-import java.util.UUID;
-import java.security.GuardedObject;
-import java.util.concurrent.ConcurrentHashMap;
-import javax.naming.NameAlreadyBoundException;
-import java.nio.file.attribute.UserPrincipal;
-
-
-public class User //implements UserPrincipal, DELETED FINAL KEYWORD
+public class User
 {
-    private String username;
-    public GuardedObject guardedName; /// Hide me behind a GuardObject
-   // private static final UUID_Generator user_UUID_generator = new UUID_Generator(UUID_Generator.gen(new UUID(0,0), Settings.getSystemName()), "User");
-    private static ConcurrentHashMap<UUID, User> userDB = new ConcurrentHashMap<UUID, User>();
-    private UUID uuid;
+	Scanner s = new Scanner(System.in);
+	
+	private String firstName;
+	private String lastName;
+	private String address;
+	private String emailAddress;
+	private String phoneNumber;
+	private String username;
+	private String password;
+	private String role;
+	private ArrayList<Reservation> rentalRecord;
+	
+	public String getFirstName() { return firstName; }
+	public String getLastName() { return lastName; }
+	public String getAddress() { return address; }
+	public String getEmailAddress() { return emailAddress; }
+	public String getPhoneNumber() { return phoneNumber; }
+	public String getUsername() { return username; }
+	public String getPassword() { return password; }
+	public String getRole() { return role; }
+	public ArrayList<Reservation> getRentalRecord() { return rentalRecord; }
+	
+	public void setFirstName(String firstName) { this.firstName = firstName; }
+	public void setLastName(String lastName) { this.lastName = lastName; }
+	public void setUsername(String username)
+	{
+		if (checkUsernameAvailability(username)) { this.username = username; }
+		else { System.out.println("Username already taken."); }
+	}
+	public void setPassword(String password) { this.password = password; }
+	public void setRole(String role) { this.role = role; }
+	public void addToRecord(Reservation r) { rentalRecord.add(r); }
+	
+	/**
+	 * Creates an instance of User.
+	 * @param rf	The RegistrationForm from which the User's information is retrieved.
+	 */
+	public User(RegistrationForm rf)
+	{
+		firstName = rf.getFirstName();
+		lastName = rf.getLastName();
+		username = rf.getUsername();
+		password = rf.getPassword();
+		address = rf.getAddress();
+		emailAddress = rf.getEmailAddress();
+		phoneNumber = rf.getPhoneNumber();
+		role = "User";
+		rentalRecord = new ArrayList<Reservation>();
+	}
 
-    public String getUsername()
-    {
-    	return username;
-    }
-    
-    //public UUID getUUID()
-    //{
-    //	return user_UUID_generator.gen(username);
-    //}
+	/**
+	 * Logs the user into the system.
+	 * @param username	The user's username.
+	 * @param password	The user's password
+	 * @return u	A new instance of user containing the individual user's information.
+	 */
+	public static User login(String username, String password)
+	{
+		User u = null;
+		SearchParameter sp = new SearchParameter("username", username);
+		ArrayList<User> result = UserDatabase.Session.search(sp);
+		if (result.size() != 0)
+		{
+			if (result.get(0).getPassword().equals(password))
+			{
+				u = result.get(0);
+			}
+		}
+		return u;
+	}
+	
+	/**
+	 * Creates a new User account.
+	 * @param role	the role of the User.
+	 * @param rf	the RegistrationForm from which the new User's information is taken.
+	 * @return u	the User object which represents the new account.
+	 */
+	public static User createAccount(String role, RegistrationForm rf)
+	{
+		User u = null;
+		if (checkUsernameAvailability(rf.getUsername()))
+		{
+			if (role.equalsIgnoreCase("Manager")) { u = new Manager(rf); }
+			if (role.equalsIgnoreCase("Employee")) { u = new Employee(rf); }
+			if (role.equalsIgnoreCase("Customer")) { u = new Customer(rf); }
+			UserDatabase.Session.addUser(u);
+		}
+		else
+		{
+			System.out.println("Username already taken.");
+		}
+		return u;
+	}
+	
+	/**
+	 * Allows the User to search for Vehicles available during a specific time period.
+	 * @return answer	the String representing the User's next location in the program after the method completes.
+	 * @throws MandrillApiError
+	 * @throws IOException
+	 */
+	public String basicSearch() throws MandrillApiError, IOException
+	{
+		String answer = "";
+		String pickUpDate;
+		String dropOffDate;
+		
+		while (true)
+		{
+			System.out.println("Enter your pick-up date. Example: 7/6/2015");
+			pickUpDate = s.next();
+			System.out.println("Enter your drop-off date.");
+			dropOffDate = s.next();
+			
+			boolean b1 = Date.fromShortString(pickUpDate).isBefore(Date.fromShortString(dropOffDate));
+			boolean b2 = Date.fromShortString(pickUpDate).checkTimeTravel();
+			
+			if (b1 && !b2) { break; }
+			else { System.out.println("Invalid response."); }
+		}
+		
+		ArrayList<Vehicle> results = ReservationDatabase.Session.basicVehicleAvailabilitySearch(pickUpDate, dropOffDate);
+		
+		answer = searchProcessing(results, pickUpDate, dropOffDate);
+		return answer;
+	}
+	
+	/**
+	 * Allows the User to search for Vehicles available during a specific time period that also match a set of search parameters.
+	 * @return answer	the String representing the User's next location in the program after the method completes.
+	 * @throws MandrillApiError
+	 * @throws IOException
+	 */
+	public String advancedSearch() throws MandrillApiError, IOException
+	{
+		String answer = "";
+		String pickUpDate;
+		String dropOffDate;
+		
+		while (true)
+		{
+			System.out.println("Enter your pick-up date. Example: 7/6/2015");
+			pickUpDate = s.next();
+			System.out.println("Enter your drop-off date.");
+			dropOffDate = s.next();
+			
+			boolean b1 = Date.fromShortString(pickUpDate).isBefore(Date.fromShortString(dropOffDate));
+			boolean b2 = Date.fromShortString(pickUpDate).checkTimeTravel();
+			
+			if (b1 && !b2) { break; }
+			else { System.out.println("Invalid response."); }
+		}
+		
+		String make = "";
+		String model = "";
+		String year = "";
+		String category = "";
+		String rate = "";
+		
+		String answer1 = "";
+		
+		while(! answer1.equals("6"))
+		{
+			System.out.println("Select a search field to change it.");
+			System.out.println("(1) Make: " + make);
+			System.out.println("(2) Model: " + model);
+			System.out.println("(3) Year: " + year);
+			System.out.println("(4) Category: " + category);
+			System.out.println("(5) Maximum Rate Per Day: " + rate);
+			System.out.println("(6) Search \n(7) Go back");
+			
+			answer1 = s.next();
+			
+			int vdbSize = VehicleDatabase.Session.getAll().size();
+			if (answer1.equals("1")) //MAKE SELECTION
+			{
+				ArrayList<String> availableMakes = new ArrayList<String>();
+				for (int i = 0; i < vdbSize; i++)
+				{
+					boolean duplicate = false;
+					for (int j = 0; j < availableMakes.size(); j++)
+					{
+						if (VehicleDatabase.Session.getAll().get(i).getMake() == availableMakes.get(j))
+						{
+							duplicate = true;
+						}
+					}
+					if (!duplicate) { availableMakes.add(VehicleDatabase.Session.getAll().get(i).getMake()); }
+				}
+				System.out.println("Available Makes:");
+				for (int i = 0; i < availableMakes.size(); i++)
+				{
+					System.out.println("(" + (i+1) + ") " + availableMakes.get(i));
+				}
+				make = availableMakes.get(Integer.valueOf(s.next())-1);
+			}
+			else if (answer1.equals("2")) //MODEL SELECTION
+			{
+				ArrayList<String> availableModels = new ArrayList<String>();
+				for (int i = 0; i < vdbSize; i++)
+				{
+					boolean duplicate = false;
+					for (int j = 0; j < availableModels.size(); j++)
+					{
+						if (VehicleDatabase.Session.getAll().get(i).getModel() == availableModels.get(j))
+						{
+							duplicate = true;
+						}
+					}
+					if (!duplicate) { availableModels.add(VehicleDatabase.Session.getAll().get(i).getModel()); }
+				}
+				System.out.println("Available Models:");
+				for (int i = 0; i < availableModels.size(); i++)
+				{
+					System.out.println("(" + (i+1) + ") " + availableModels.get(i));
+				}
+				model = availableModels.get(Integer.valueOf(s.next())-1);
+			}
+			else if (answer1.equals("3")) //YEAR SELECTION
+			{
+				ArrayList<String> availableYears = new ArrayList<String>();
+				for (int i = 0; i < vdbSize; i++)
+				{
+					boolean duplicate = false;
+					for (int j = 0; j < availableYears.size(); j++)
+					{
+						if (VehicleDatabase.Session.getAll().get(i).getYear() + "" == availableYears.get(j))
+						{
+							duplicate = true;
+						}
+					}
+					if (!duplicate) { availableYears.add(VehicleDatabase.Session.getAll().get(i).getYear() + ""); }
+				}
+				System.out.println("Available Years:");
+				for (int i = 0; i < availableYears.size(); i++)
+				{
+					System.out.println("(" + (i+1) + ") " + availableYears.get(i));
+				}
+				year = availableYears.get(Integer.valueOf(s.next())-1);
+			}
+			else if (answer1.equals("4")) //CATEGORY SELECTION
+			{
+				ArrayList<String> availableCategories = new ArrayList<String>();
+				for (int i = 0; i < vdbSize; i++)
+				{
+					boolean duplicate = false;
+					for (int j = 0; j < availableCategories.size(); j++)
+					{
+						if (VehicleDatabase.Session.getAll().get(i).getCategory() == availableCategories.get(j))
+						{
+							duplicate = true;
+						}
+					}
+					if (!duplicate) { availableCategories.add(VehicleDatabase.Session.getAll().get(i).getCategory()); }
+				}
+				System.out.println("Available Categories:");
+				for (int i = 0; i < availableCategories.size(); i++)
+				{
+					System.out.println("(" + (i+1) + ") " + availableCategories.get(i));
+				}
+				category = availableCategories.get(Integer.valueOf(s.next())-1);
+			}
+			else if (answer1.equals("5")) //MAX PRICE SELECTION
+			{
+				System.out.println("Enter your maximum price per day (Example: 32)");
+				rate = s.nextLine();
+			}
+			else if (answer1.equals("6"))
+			{
+				break;
+			}
+			else if (answer1.equals("7"))
+			{
+				answer = "0";
+				break;
+			}
+			else { System.out.println("Invalid response."); }
+		}
+		
+		ArrayList<SearchParameter> spList = new ArrayList<SearchParameter>();
+		
+		if (! make.equals("")) { spList.add(new SearchParameter("make", make)); }
+		if (! model.equals("")) { spList.add(new SearchParameter("model", model)); }
+		if (! year.equals("")) { spList.add(new SearchParameter("year", year)); }
+		if (! category.equals("")) { spList.add(new SearchParameter("category", category)); }
+		
+		VehicleDatabase tempDatabase = new VehicleDatabase();
+		tempDatabase.load(ReservationDatabase.Session.basicVehicleAvailabilitySearch(pickUpDate, dropOffDate));
+		ArrayList<Vehicle> resultList = tempDatabase.searchMultiple(spList);
+		
+		ArrayList<Vehicle> resultList2 = new ArrayList<Vehicle>();
+		
+		if (! answer.equals("0"))
+		{
+			if (! rate.equals(""))
+			{
+				for (int i = 0; i < resultList.size(); i++)
+				{
+					if (resultList.get(i).getRate() <= Integer.valueOf(rate))
+					{
+						resultList2.add(resultList.get(i));
+					}
+				}
+				answer = searchProcessing(resultList2, pickUpDate, dropOffDate);
+			}
+			else { answer = searchProcessing(resultList, pickUpDate, dropOffDate); }
+		}
 
-    public boolean equals(User another)
-    {
-    	return (this.getUUID().equals(another.getUUID()));
-    }
+		return answer;
+	}
+	
+	/**
+	 * Allows the User to view a specific Vehicle from his/her search results, request a quote for the Vehicle, and attempt to reserve the Vehicle.
+	 * @param results	the results from the previous search.
+	 * @param pickUpDate	the beginning date of the presumed rental period.
+	 * @param dropOffDate	the end date of the presumed rental period.
+	 * @return answer	the String representing the User's next location in the program after the method completes.
+	 * @throws MandrillApiError
+	 * @throws IOException
+	 */
+	public String searchProcessing(ArrayList<Vehicle> results, String pickUpDate, String dropOffDate) throws MandrillApiError, IOException
+	{
+		String answer = "";
+		if (results.size() == 0) //NO SEARCH RESULTS FOUND
+		{
+			System.out.println("No vehicles match your search.");
+			answer = "0";
+		}
+		else //SEARCH RESULTS FOUND
+		{
+			while (true)
+			{
+				System.out.println("Available vehicles: ");
+				for (int i = 0; i < results.size(); i++)
+				{
+					System.out.println("(" + (i+1) + ") " + results.get(i).toShortString());
+				}
+				System.out.println("Enter a number to view a vehicle or \n(0) To go back");
+				String option = s.next();
+				
+				if (option.equals("0")) //GO BACK OPTION
+				{
+					answer = "0";
+					break;
+				}
+				else if (Integer.valueOf(option) <= results.size())//CAR SELECTED OPTION
+				{
+					Vehicle selectedVehicle = selectVehicle(results, option);
+					String option2;
+					
+					while (true)
+					{
+						System.out.println("(0) " + selectedVehicle.toString());
+						System.out.println("(1) To get a quote for this vehicle \n(2) To go back");
+						
+						option2 = s.next();
+						
+						if (! (option2.equals("1") || option2.equals("2"))) { System.out.println("Invalid response."); }
+						else { break; }
+					}
 
-    public User(String username, Name name) throws NameAlreadyBoundException
-    {
-    	//NAME NOT DEFINED
-		//this.name = GuardedObject(name, null); //JERIMIAH, I PUT A NULL HERE BECAUSE THERE WAS NO 2ND PARAMETER
-		this.username = username;
-		//UUID uuid = user_UUID_generator.gen(this.username);
-		uuid = UUID.randomUUID();
-		if (userDB.containsKey(uuid)) { throw new NameAlreadyBoundException("Username already taken"); }
-		userDB.put(uuid, this);
-    }
+					if (option2.equals("1"))
+					{
+						while (true)
+						{
+							System.out.println("Your requested quote for this vehicle is " + getQuote(selectedVehicle, pickUpDate, dropOffDate));
+							System.out.println("(1) To reserve this vehicle \n(2) To go back");
+							
+							option2 = s.next();
+							
+							if (! (option2.equals("1") || option2.equals("2"))) { System.out.println("Invalid response."); }
+							else { break; }
+						}
+						
+						if (option2.equals("1") && this.getRole().equalsIgnoreCase("User"))
+						{
+							while(true)
+							{
+								System.out.println("You must be logged in to reserve this vehicle.");
+								System.out.println("(1) To log in");
+								System.out.println("(2) To create an account");
+								System.out.println("(3) To go back");
+								
+								String option3 = s.next();
+								
+								if (! (option3.equals("1") || option3.equals("2"))) { System.out.println("Invalid response."); }
+								else
+								{
+									answer = option3;
+									break;
+								}
+							}
+							break;
+						}
+						else if (option2.equals("1") && !this.getRole().equalsIgnoreCase("User"))
+						{
+							boolean verified = false;
+							while (true)
+							{
+								System.out.println("Please enter your credit card number.");
+								String ccNumber = s.next();
+								System.out.println("Please enter your credit card provider.");
+								String provider = s.next();
+								System.out.println("Please enter your expiration date. Example: 7/15");
+								String expDate = s.next();
+								System.out.println("Please enter your cvc.");
+								String cvc = s.next();
+								CreditCard card = new CreditCard(ccNumber, provider, expDate, cvc);
+								verified = card.verify();
+								if (verified)
+								{
+									reserveVehicle(selectedVehicle, pickUpDate, dropOffDate, card);
+									answer = "0";
+									break;
+								}
+								else
+								{
+									String option4;
+									while (true)
+									{
+										System.out.println("Your card cannot be verified.");
+										System.out.println("(1) To re-enter your information");
+										System.out.println("(2) To cancel");
+										
+										option4 = s.next();
+										
+										if (! (option4.equals("1") || option4.equals("2"))) { System.out.println("Invalid response."); }
+										else { break; }
+									}
+									if (option4.equals("2")) { break; }
+								}
+							}
+							break;
+						}
+					}
+				}
+				else { System.out.println("Invalid response."); }
+			}
+		}
+		return answer;
+	}
+	
+	/**
+	 * Allows the User to select a Vehicle from a given list
+	 * @param list	the ArrayList from which the Vehicle is selected.
+	 * @param choiceNumber	the reference number of the User's chosen Vehicle.
+	 * @return
+	 */
+	public Vehicle selectVehicle(ArrayList<Vehicle> list, String choiceNumber)
+	{
+		Vehicle v = list.get(Integer.valueOf(choiceNumber)-1);
+		return v;
+	}
+	
+	/**
+	 * Gets a quote for the given vehicle over the given period.
+	 * @param vehicle	the Vehicle for which the quote is retrieved.
+	 * @param pickUpDate	the start date of the presumed rental period.
+	 * @param dropOffDate	the end date of the presumed rental period.
+	 * @return
+	 */
+	public String getQuote(Vehicle vehicle, String pickUpDate, String dropOffDate)
+	{
+		double quote;
+		Date pickUp = Date.fromShortString(pickUpDate);
+		Date dropOff = Date.fromShortString(dropOffDate);
+		double price = vehicle.getRate();
+		int days = pickUp.daysUntil(dropOff);
+		Quote myQuote = new Quote(price, days);
+		quote = myQuote.getTotal();
+		return "$" + quote;
+	}
+	
+	/**
+	 * Allows the User to reserve a Vehicle over the given rental period.
+	 * @param vehicle	the Vehicle to be rented.
+	 * @param pickUpDate	the start date of the rental period.
+	 * @param dropOffDate	the end date of the rental period.
+	 * @param card	the CreditCard to be billed for the rental.
+	 * @throws MandrillApiError
+	 * @throws IOException
+	 */
+	public void reserveVehicle(Vehicle vehicle, String pickUpDate, String dropOffDate, CreditCard card) throws MandrillApiError, IOException
+	{
+		Date pickUp = Date.fromShortString(pickUpDate);
+		Date dropOff = Date.fromShortString(dropOffDate);
+		Reservation r = new Reservation(pickUp, dropOff, vehicle, this, card);
+		ReservationDatabase.Session.addReservation(r);
+		rentalRecord.add(r);
+		card.bill(Double.valueOf(getQuote(vehicle, pickUpDate, dropOffDate).substring(1)));
+		System.out.println("Your vehicle has been reserved. You will be sent an email containing your confirmation number.");
+		
+		MandrillApi mandrillApi = new MandrillApi("eoYBAgIUJLYb1A5LAQb3RA");
+
+		// create your message
+		MandrillMessage message = new MandrillMessage();
+		message.setSubject("Your rental car reservation!");
+		message.setHtml("<h1>Thank you for shopping with ORS, We have your reservation!</h1><br />Thank you for choosing ORS ! If you have any issues or need to cancel your reservation"
+		+ " you can call our 24/7 customer support line at 423-555-0543.");
+		message.setAutoText(true);
+		message.setFromEmail("ejkkors@gmail.com");
+		message.setFromName("Online Reservation System");
+		// add recipients
+		ArrayList<Recipient> recipients = new ArrayList<Recipient>();
+		Recipient recipient = new Recipient();
+		recipient.setEmail(getEmailAddress());
+		recipient.setName("Customer");
+		recipients.add(recipient);
+		recipient = new Recipient();
+		recipient.setEmail("dqv679@mocs.utc.edu");
+		recipients.add(recipient);
+		message.setTo(recipients);
+		message.setPreserveRecipients(true);
+		ArrayList<String> tags = new ArrayList<String>();
+		tags.add("test");
+		tags.add("helloworld");
+		message.setTags(tags);
+		// ... add more message details if you want to!
+		// then ... send
+		MandrillMessageStatus[] messageStatusReports = mandrillApi
+		        .messages().send(message, false);
+			
+		while (true)
+		{
+			System.out.println("(0) To print this reservation");
+			System.out.println("(1) To go back");
+			String answer = s.next();
+			if (answer.equals("0")) { r.print(); }
+			else if (answer.equals("1")) { break; }
+			else { System.out.println("Invalid response."); }
+		}
+	}
+
+	/**
+	 * Creates a String which represents this User.
+	 * @return s	the String representing the User.
+	 */
+	public String toString()
+	{
+		String role = this.getRole();
+		String s = "";
+		s = s + role + ": " + firstName + " " + lastName + "\n" +
+				"    Username: " + username;
+		return s;
+	}
+	
+	
+	/**
+	 * Creates a String which represents this User for storage on the UserDatabase text file.
+	 * @return s	the String represernting the User.
+	 */
+	public String toStorageString()
+	{	
+		String s = "";
+		s = s + role + ", " + firstName + ", " + lastName + ", " + address + ", " + emailAddress + ", " + phoneNumber + ", " + username + ", " + password;
+		return s;
+	}
+	
+	
+	/**
+	 * Creates a new User object from a String taken from the UserDatabase text file.
+	 * @return user	the instanc of User that was translated from the String.
+	 */
+	public static User fromStorageString(String u)
+	{
+		RegistrationForm rf = new RegistrationForm(null, null, null, null, null, null, null);
+		User user = new User(rf);
+		
+		String role;
+		String firstName;
+		String lastName;
+		String address;
+		String emailAddress;
+		String phoneNumber;
+		String username;
+		String password;
+		
+		int comma = u.indexOf(",");
+		int comma2 = u.indexOf(",", comma + 1);
+		int comma3 = u.indexOf(",", comma2 + 1);
+		int comma4 = u.indexOf(",", comma3 + 1);
+		int comma5 = u.indexOf(",", comma4 + 1);
+		int comma6 = u.indexOf(",", comma5 + 1);
+		int comma7 = u.indexOf(",", comma6 + 1);
+		
+    	role = u.substring(0, comma);
+    	firstName = u.substring(comma + 2, comma2);
+    	lastName = u.substring(comma2 + 2, comma3);
+    	address = u.substring(comma3 + 2, comma4);
+    	emailAddress = u.substring(comma4 + 2, comma5);
+    	phoneNumber = u.substring(comma5 + 2, comma6);
+    	username = u.substring(comma6 + 2, comma7);
+    	password = u.substring(comma7 + 2);
+    	
+    	rf = new RegistrationForm(firstName, lastName, address, emailAddress, phoneNumber, username, password);
+    	
+    	if (role.equalsIgnoreCase("Manager")) { user = new Manager(rf); }
+    	else if (role.equalsIgnoreCase("Employee")) { user = new Employee(rf); }
+    	else if (role.equalsIgnoreCase("Customer")) { user = new Customer(rf); }
+    	
+		return user;
+	}
+	
+	
+	/**
+	 * Checks the availability of a given username.
+	 * @param username	the username to be checked.
+	 * @return b	the boolean representing whether or not the username is available.
+	 */
+	public static boolean checkUsernameAvailability(String username)
+	{
+		boolean b = true;
+		SearchParameter sp = new SearchParameter("username", username);
+		if (UserDatabase.Session.search(sp).size() != 0) { b = false; }
+		return b;
+	}
 }
