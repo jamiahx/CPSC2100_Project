@@ -22,6 +22,8 @@
  */
 
 
+package edu.utc._2015cpsc2100.ejkk;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
