@@ -47,7 +47,7 @@
     </dependency>
     <dependency>
     	<groupId>com.mandrillapp.wrapper.lutung</groupId>
-    	<artifactId>lutang</artifactId>
+    	<artifactId>lutung</artifactId>
     	<version>0.0.6</version>
     </dependency>
   </dependencies>
