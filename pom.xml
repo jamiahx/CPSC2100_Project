@@ -45,6 +45,11 @@
       <artifactId>javaee-api</artifactId>
       <version>7.0</version>        
     </dependency>
+    <dependency>
+    	<groupId>com.mandrillapp.wrapper.lutung</groupId>
+    	<artifactId>lutang</artifactId>
+    	<version>0.0.6</version>
+    </dependency>
   </dependencies>
   <scm>
     <connection>scm:git:https://github.com/jamiahx/CPSC2100_ORS.git</connection>
