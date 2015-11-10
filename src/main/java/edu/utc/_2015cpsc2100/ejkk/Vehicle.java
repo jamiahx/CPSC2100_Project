@@ -24,6 +24,9 @@
 
 package edu.utc._2015cpsc2100.ejkk;
 
+import java.util.Set;
+import javax.persistence.*;
+
 
 /**
  * 
@@ -31,6 +34,7 @@ package edu.utc._2015cpsc2100.ejkk;
  * Group # 4
  *
  */
+@Entity
 public class Vehicle
 {
     private String make;
@@ -39,7 +43,10 @@ public class Vehicle
     private String category;
     private double rate;
     private String description;
+    @Id
     private String vin;
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="vehicle")
+    private Set<Reservation> reservations;
 
     public String getMake() { return make; }
     public String getModel() { return model; }
@@ -57,6 +64,8 @@ public class Vehicle
     public void setDescription(String description) { this.description = description; }
     public void setVIN(String vin) { this.vin = vin; }
 
+    protected Vehicle(){}
+    
     /**
      * Vehicle constructor for the Vehicle class
      * @param make	Vehicle manufacturer

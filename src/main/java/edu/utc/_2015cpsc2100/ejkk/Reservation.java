@@ -25,6 +25,7 @@
 package edu.utc._2015cpsc2100.ejkk;
 
 import java.util.ArrayList;
+import javax.persistence.*;
 
 
 /**
@@ -33,15 +34,18 @@ import java.util.ArrayList;
  * Group # 4
  *
  */
+@Entity
 public class Reservation
 {	
     private Date pickUpDate;
     private Date dropOffDate;
+    @ManyToOne(cascade=CascadeType.ALL)
     private Vehicle vehicle;
     private User customer;
     private CreditCard card;
     private int reservationDates;
     private double price;
+    @Id
     private String resID;
     private boolean canceled;
 	
@@ -147,6 +151,8 @@ public class Reservation
 		canceled = false;
 
     }
+    
+    protected Reservation(){}
 	
     /**
      * Creates a String that represents this Reservation.
