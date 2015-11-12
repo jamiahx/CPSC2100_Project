@@ -23,25 +23,18 @@
 
 package edu.utc._2015cpsc2100.ejkk;
 
-import java.security.GuardedObject;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.security.auth.Destroyable;
 
 
-public abstract class PrivInfo implements Destroyable
+public class PrivInfo
 {
-    private static ConcurrentHashMap<UUID, GuardedObject> PrivInfoDB;
-
-    public final PrivInfo getPrivInfo(UUID owner)
-    {
-	return PrivInfoDB.get(UUID_Generator.gen(owner, this.getClass.toString()));
-    }
-
-//    protected PrivInfo(UUID owner)
-//    {
-//	PrivInfoDB.put(UUID_Generator.gen(owner, this.getClass.toString()), this);
-//    }
-
-    public static GuardedObject getGuardedInfo(UUID owner) {return PrivInfoDB.get(owner);}
+    public static GuardedObject
+	<ConcurrentHashMap, PrivInfoPermission> guardedNameDB
+	= new GuardedObject
+	<ConcurrentHashMap, PrivInfoPermission>
+	(new ConcurrentHashMap<UUID, RealName>(),
+	 new PrivInfoPermission("NameDB"));
 }
+

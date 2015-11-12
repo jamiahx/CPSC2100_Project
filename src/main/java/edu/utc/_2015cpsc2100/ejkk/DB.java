@@ -10,12 +10,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * any later version.
-
+ *
  * CPSC2100_ORS is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
-
+ *
  * You should have received a copy of the GNU General Public License
  * along with CPSC2100_ORS.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -23,14 +23,17 @@
 
 package edu.utc._2015cpsc2100.ejkk;
 
-import java.security.Principal;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 
 
-public final class Customer implements Principal
+public final class DB
 {
-    public String getName()
-    {
-	// TODO Auto-generated method stub
-	return null;
-    }
+    private static DataSource vehicleDB
+	= (DataSource) InitialContext.doLookup("jdbc/vehicleDB");
+
+    public static DataSource getVehicleDB() {return vehicleDB;}
+
+    public static void updateVehicleDB()
+    {vehicleDB = (DataSource) InitialContext.doLookup("jdbc/vehicleDB");}
 }

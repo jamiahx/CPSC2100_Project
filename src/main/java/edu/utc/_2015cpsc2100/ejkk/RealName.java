@@ -23,14 +23,23 @@
 
 package edu.utc._2015cpsc2100.ejkk;
 
-import java.nio.file.attribute.GroupPrincipal;
+import java.util.UUID;
 
-
-/// How to instantiate a Customer
-// import javax.security.auth.Subject;
-// import java.util.Vector;
-// new Subject(false, new Vector<Principal> {new User(username, Name(firstName, lastName)), new Customer()}, {}, new Vector<PassHash> {PassHash(passHash)});
-
-
-
-
+public final class RealName extends PrivInfo
+{
+    private String firstName;
+    private String lastName;
+    public String getFirstName()
+    {
+	return firstName;
+    }
+    public String getLastName()
+    {	
+	return lastName;
+    }
+    public RealName(String firstName, String lastName)
+    {
+	this.firstName = firstName;
+	this.lastName = lastName;
+    }
+}

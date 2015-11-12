@@ -24,47 +24,55 @@
 package edu.utc._2015cpsc2100.ejkk;
 
 import java.util.ArrayList;
+import java.security.Principal;
+import java.util.Date;
+import java.time.Duration;
+import javax.persistence.*;
 
 
+@Entity
+@IdClass(ReservationId.class)
 public class Reservation
 {
-    private Date pickUpDate;
-    private Date dropOffDate;
+    @Id
+    @ManyToOne(cascade=ALL)
     private Vehicle vehicle;
-    private Customer customer;
-    private int ccNumber;
-    private int reservationDates; //what is this again???
+    @Id
+    private Date pickUpTime;
+    private Date dropOffTime;
+    private Principal customer;
     private int price;
-    private static int reservationNumber;
-    public int resNumber;
-	
-    public Date getPickUpDate() { return pickUpDate; }
-    public Date getDropOffDate() { return dropOffDate; }
+
+
+    public Date getPickUpTime() { return pickUpTime; }
+    public Date getDropOffTime() { return dropOffTime; }
+    public Duration getDuration()
+    {
+	return Duration.between(pickUpTime.toInstant(),
+				dropOffTime.toInstant());
+    }
     public Vehicle getVehicle() { return vehicle; }
-    public Customer getCustomer() { return customer; }
-    public int getCreditCardInfo() { return ccNumber; }
+    public Principal getCustomer() { return customer; }
     public int getReservationDates() { return reservationDates; }
     public int getPrice() { return price; }
 	
     /**
      * Creates a reservation object which stores temporal, vehicle, and customer information.
-     * @param pickUp	the date on which the customer is rented the car
-     * @param dropOff	the date on which the customer must return the car
+     * @param pickUp	the time at which the customer is scheduled to pick up
+     *                  the car
+     * @param dropOff	the time at which the customer is scheduled to drop off
+     *                  the car
      * @param vehicle	the vehicle which the customer is renting
-     * @param customer	the customer who reserved the vehicle
-     * @param ccNumber	the credit card number of the customer
+     * @param customer	the customer principal who reserved the vehicle
      */
-    public Reservation(Date pickUp, Date dropOff, Vehicle vehicle, Customer customer, int ccNumber)
+    public Reservation(Vehicle vehicle, Date pickUp, Date dropOff,
+		       Principal customer)
     {
-	reservationNumber++;
-	pickUpDate = pickUp;
-	dropOffDate = dropOff;
+	pickUpTime = pickUp;
+	dropOffTime = dropOff;
 	this.vehicle = vehicle;
 	this.customer = customer;
-	this.ccNumber = ccNumber;
-	reservationDates = pickUpDate.daysUntil(dropOffDate);
-	price = vehicle.rate * reservationDates;
-	resNumber = reservationNumber;
+	price = vehicle.rate * this.getDuration().toHours();
     }
 	
     /**
@@ -73,23 +81,13 @@ public class Reservation
      */
     public String toString()
     {
-	String s = "";
-	s = s + "Dates: " +  pickUpDate.toShortString() + " - " + dropOffDate.toShortString() + "\n" +
-	    "Vehicle: " + vehicle.toString() + "\n" +
-	    "Customer: " + customer.getName() + "\n" +
-	    "Price: " + price + "\n" +
-	    "Reservation Number: " + resNumber;
+	String s
+	    = "Times: " +  pickUpTime.toShortString() + " - "
+	    + dropOffTime.toShortString() + "\n"
+	    + "Vehicle: " + vehicle.toString() + "\n"
+	    + "Customer: " + customer.getName() + "\n"
+	    + "Price: " + price + "\n";
 	return s;
     }
     
-    public void validateCC(int ccNumber) // Need to validate cc ?! 
-    {
-    	// store number in an array
-    	// if ( ccNumber = array.size() == 16)
-    	// return true
-    	// or string "Card is valid"
-    	// else 
-    	// return false
-    	// or string "Card is invalid"
-    }
 }

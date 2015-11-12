@@ -24,16 +24,26 @@
 package edu.utc._2015cpsc2100.ejkk;
 
 import java.time.Year;
+import java.util.Map;
+import java.util.Date;
+import javax.persistence.*;
 
+
+@Entity
 public class Vehicle {
 
-    private final String make;
-    private final String model;
-    private final Year year;
-    private final String category;
+    @Id
+    private String serial;
+    private String make;
+    private String model;
+    private Year year;
+    private String category;
     protected int rate;
     protected String description;
+    @OneToMany(cascade=ALL, mappedBy="vehicle")
+    protected Set<Reservation> reservations;
 
+    public String getSerial(){return serial;}
     public String getMake(){return make;}
     public String getModel(){return model;}
     public Year getYear(){return year;}
@@ -41,6 +51,9 @@ public class Vehicle {
     public int getRate(){return rate;}
     public String getDescription(){return description;}
 
+
+    protected Vehicle(){}
+    
     /**
      * Vehicle constructor for the Vehicle class
      * @param make Vehicle Manufacturer
@@ -50,7 +63,8 @@ public class Vehicle {
      * @param rate Price per day rented
      * @param description Vehicle description
      */
-    public Vehicle(String make, String model, Year year, String category, int rate, String description)
+    public Vehicle(String make, String model, Year year, String category,
+		   int rate, String description)
     {
 	this.make = make;
 	this.model = model;
@@ -70,8 +84,8 @@ public class Vehicle {
     
     public void update(int rate, String description)
     {
-    	this.rate = rate;
-    	this.description = description;
+	this.rate = rate;
+	this.description = description;
     	
     }
 }

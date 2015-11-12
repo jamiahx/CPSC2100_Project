@@ -23,23 +23,14 @@
 
 package edu.utc._2015cpsc2100.ejkk;
 
-import java.security.MessageDigest;
 
-
-public final class PassHash extends PrivInfo
+public class GuardedObject
+    <ObjectT, GuardT extends java.security.Guard>
+    extends java.security.GuardedObject
 {
-    private byte[] passHash;
-    public byte[] getPassHash()
-    {
-	return passHash;
-    }
-    public PassHash(byte[] passHash)
-    {
-	this.passHash = passHash;
-    }
+    public GuardedObject(ObjectT Object, GuardT Guard)
+    {super(Object, Guard);}
 
-    public PassHash(String pass)
-    {
-	passHash = MessageDigest.getInstance("SHA-512").digest(pass.getBytes());
-    }
+    public ObjectT getObject()
+    {return (ObjectT) super.getObject();}
 }
