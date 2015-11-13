@@ -36,6 +36,9 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 
 
 /**
@@ -77,8 +80,6 @@ public class VehicleDatabase
 		Vehicle vehicle = em.find(Vehicle.class, vin);
 		em.remove(vehicle);
 	}
-	
-	
 	
 	/**
 	 * Searches the database for Vehicles that match the given SearchParameter.
@@ -179,9 +180,11 @@ public class VehicleDatabase
 	 */
 	public List<Vehicle> getAll()
 	{
-		List<Vehicle> allVehicles = new ArrayList<Vehicle>();
-		allVehicles.addAll(vehicleList);
-		return allVehicles;
+		CriteriaBuilder cBuilder = em.getCriteriaBuilder();
+		CriteriaQuery<Vehicle> cQuery = cBuilder.createQuery(Vehicle.class);
+		cQuery.select(cQuery.from(Vehicle.class));
+		TypedQuery<Vehicle> tQuery = em.createQuery(cQuery);
+		return tQuery.getResultList();
 	}
 	
 	/**
