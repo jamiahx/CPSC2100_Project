@@ -28,7 +28,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 
 /**
@@ -37,115 +44,50 @@ import java.util.Scanner;
  * Group # 4
  *
  */
+@Stateless
+@DeclareRoles({"Customer", "Employee", "Manager"})
 public class VehicleDatabase
 {
-	private ArrayList<Vehicle> vehicleList;
-	public static VehicleDatabase Session;
-	private static boolean FirstInstance = true;
-	private File vdbFile;
+	@PersistenceContext
+	EntityManager em;
 	
 	/**
 	 * Creates a new instance of VehicleDatabase.
 	 */
 	public VehicleDatabase()
-	{
-		vehicleList = new ArrayList<Vehicle>();
-		if (FirstInstance)
-		{
-			FirstInstance = false;
-			Session = this;
-		}
-	}
-	
-	/**
-	 * Loads Vehicles to the database from the given ArrayList.
-	 * @param list	the ArrayList of Vehicles to load.
-	 */
-	public void load(ArrayList<Vehicle> list)
-	{
-		ArrayList<Vehicle> loadList = new ArrayList<Vehicle>();
-		loadList.addAll(list);
-		vehicleList = loadList;
-	}
-	
-	/**
-	 * Loads Vehicles to the database from a given text file.
-	 * @return fileFound	the boolean indicating whether or not the text file was found.
-	 */
-	public boolean load()
-	{
-		System.out.println("Please enter a file name from which to load your Vehicle Database.");
-		boolean fileFound = false;
-
-		try
-		{
-			Scanner s = new Scanner(System.in);
-			String vdbFileName = s.next();
-			vdbFile = new File(vdbFileName);
-			Scanner fileScanner = new Scanner(vdbFile);
-			while(fileScanner.hasNext())
-			{
-				Vehicle v = Vehicle.fromStorageString(fileScanner.nextLine());
-				vehicleList.add(v);
-			}
-			fileFound = true;
-			return fileFound;
-		}
-		catch (FileNotFoundException e)
-		{
-			System.out.println("No Vehicle Database file was found.");
-			load();
-			return fileFound;
-		}
-	}
-	
-	/**
-	 * Saves the Vehicles in the database to the text file that was given at load time.
-	 * @throws FileNotFoundException
-	 */
-	public void save() throws FileNotFoundException
-	{
-		PrintWriter p = new PrintWriter(vdbFile);
-		for (int i = 0; i < vehicleList.size(); i++)
-		{
-			p.println(vehicleList.get(i).toStorageString());
-		}
-		p.close();
-	}
+	{}
 	
 	/**
 	 * Adds the given Vehicle to the database.
 	 * @param vehicle	the Vehicle to be added.
 	 */
+	@RolesAllowed("Employee")
 	public void addVehicle(Vehicle vehicle)
 	{
-		vehicleList.add(vehicle);
+		em.persist(vehicle);
 	}
 	
 	/**
 	 * Deletes a Vehicle from the database.
 	 * @param vin	the ID of the Vehicle to be deleted.
 	 */
+	@RolesAllowed("Employee")
 	public void deleteVehicle(String vin)
 	{
-		for (int i = 0; i < vehicleList.size(); i++)
-		{
-			if (vehicleList.get(i).getVIN().equalsIgnoreCase(vin))
-			{
-				vehicleList.remove(i);
-				break;
-			}
-		}
+		Vehicle vehicle = em.find(Vehicle.class, vin);
+		em.remove(vehicle);
 	}
+	
+	
 	
 	/**
 	 * Searches the database for Vehicles that match the given SearchParameter.
 	 * @param sp	the SearchParameter to be searched for.
 	 * @return results	the ArrayList of Vehicles that match the search.
 	 */
-	public ArrayList<Vehicle> search(SearchParameter sp)
+	public List<Vehicle> search(SearchParameter sp)
 	{
-		ArrayList<Vehicle> results = new ArrayList<Vehicle>();
+		List<Vehicle> results = new ArrayList<Vehicle>();
 		for (int i = 0; i < vehicleList.size(); i++)
 		{
 			Vehicle v = vehicleList.get(i);
@@ -194,10 +136,10 @@ public class VehicleDatabase
 	 * @param sp	the SearchParameter to be searched for.
 	 * @return results	the ArrayList of Vehicles that match the search.
 	 */
-	public ArrayList<Vehicle> oppositeSearch(SearchParameter sp)
+	public List<Vehicle> oppositeSearch(SearchParameter sp)
 	{
-		ArrayList<Vehicle> results = new ArrayList<Vehicle>();
-		ArrayList<Vehicle> oppositeResults = search(sp);
+		List<Vehicle> results = new ArrayList<Vehicle>();
+		List<Vehicle> oppositeResults = search(sp);
 		for (int i = 0; i < vehicleList.size(); i++)
 		{
 			for (int j = 0; j < oppositeResults.size(); i++)
@@ -216,10 +158,10 @@ public class VehicleDatabase
 	 * @param spList the ArrayList of SearchParameters to be searched for.
 	 * @return results the ArrayList of Vehicles that match the search.
 	 */
-	public ArrayList<Vehicle> searchMultiple(ArrayList<SearchParameter> spList)
+	public List<Vehicle> searchMultiple(ArrayList<SearchParameter> spList)
 	{
-		ArrayList<Vehicle> results = new ArrayList<Vehicle>();
-		ArrayList<Vehicle> results2 = new ArrayList<Vehicle>();
+		List<Vehicle> results = new ArrayList<Vehicle>();
+		List<Vehicle> results2 = new ArrayList<Vehicle>();
 		results = getAll();
 		for (int i = 0; i < spList.size(); i++)
 		{
@@ -235,9 +177,9 @@ public class VehicleDatabase
 	 * Gets all the Vehicles within the database.
 	 * @return allVehicles	the ArrayList of all the Vehicles in the database.
 	 */
-	public ArrayList<Vehicle> getAll()
+	public List<Vehicle> getAll()
 	{
-		ArrayList<Vehicle> allVehicles = new ArrayList<Vehicle>();
+		List<Vehicle> allVehicles = new ArrayList<Vehicle>();
 		allVehicles.addAll(vehicleList);
 		return allVehicles;
 	}
@@ -247,7 +189,7 @@ public class VehicleDatabase
 	 * @param vehicles	the ArrayList to be converted.
 	 * @return String the String representing the list.
 	 */
-	public static String makeOptionList(ArrayList<Vehicle> vehicles)
+	public static String makeOptionList(List<Vehicle> vehicles)
 	{
 		String s = "";
 		for (int i = 0; i < vehicles.size(); i++)
