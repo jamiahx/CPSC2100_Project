@@ -4,5 +4,11 @@
 		<jta-data-source>jdbc/ORSDB</jta-data-source>
 		<class>edu.utc._2015cpsc2100.ejkk.Reservation</class>
 		<class>edu.utc._2015cpsc2100.ejkk.Vehicle</class>
+		<properties>
+			<property name="javax.persistence.schema-generation.database.action" value="create"/>
+			<property name="javax.persistence.schema-generation.create-source" value="metadata"/>
+			<property name="javax.persistence.schema-generation.drop-source" value="metadata"/>
+			<property name="javax.persistence.schema-generation.create-database-schemas" value="true"/>
+		</properties>
 	</persistence-unit>
 </persistence>
