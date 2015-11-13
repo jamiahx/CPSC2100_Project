@@ -50,6 +50,11 @@
     	<artifactId>lutung</artifactId>
     	<version>0.0.6</version>
     </dependency>
+    <dependency>
+    	<groupId>org.eclipse.persistence</groupId>
+    	<artifactId>javax.persistence</artifactId>
+    	<version>2.1.0</version>
+    </dependency>
   </dependencies>
   <scm>
     <connection>scm:git:https://github.com/jamiahx/CPSC2100_ORS.git</connection>
