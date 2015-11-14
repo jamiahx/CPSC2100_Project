@@ -25,7 +25,11 @@
 package edu.utc._2015cpsc2100.ejkk;
 
 import java.util.ArrayList;
-import javax.persistence.*;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 
 /**
