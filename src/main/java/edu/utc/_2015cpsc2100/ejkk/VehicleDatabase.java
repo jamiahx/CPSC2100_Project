@@ -39,6 +39,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 
 
 /**
@@ -86,92 +87,14 @@ public class VehicleDatabase
 	 * @param sp	the SearchParameter to be searched for.
 	 * @return results	the ArrayList of Vehicles that match the search.
 	 */
-	public List<Vehicle> search(SearchParameter sp)
+	public List<Vehicle> search(Predicate... restrictions)
 	{
-		List<Vehicle> results = new ArrayList<Vehicle>();
-		for (int i = 0; i < vehicleList.size(); i++)
-		{
-			Vehicle v = vehicleList.get(i);
-			if (sp.field.equalsIgnoreCase("make"))
-			{
-				String make = v.getMake();
-				if (sp.result.equalsIgnoreCase(make)) { results.add(v); }
-			}
-			if (sp.field.equalsIgnoreCase("model"))
-			{
-				String model = v.getModel();
-				if (sp.result.equalsIgnoreCase(model)) { results.add(v); }
-			}
-			if (sp.field.equalsIgnoreCase("year"))
-			{
-				String year = "" + v.getYear();
-				if (sp.result.equalsIgnoreCase(year)) { results.add(v); }
-			}
-			if (sp.field.equalsIgnoreCase("category"))
-			{
-				String category = v.getCategory();
-				if (sp.result.equalsIgnoreCase(category)) { results.add(v); }
-			}
-			if (sp.field.equalsIgnoreCase("rate"))
-			{
-				String rate = "" + v.getRate();
-				if (sp.result.equalsIgnoreCase(rate)) { results.add(v); }
-			}
-			if (sp.field.equalsIgnoreCase("description"))
-			{
-				String description = v.getDescription();
-				if (sp.result.equalsIgnoreCase(description)) { results.add(v); }
-			}
-			if (sp.field.equalsIgnoreCase("vin"))
-			{
-				String vin = v.getVIN();
-				if (sp.result.equalsIgnoreCase(vin)) { results.add(v); }
-			}
-					
-		}
-    	return results;
-	}
-	
-	/**
-	 * Searches the database for Vehicles that do not match the given SearchParameter.
-	 * @param sp	the SearchParameter to be searched for.
-	 * @return results	the ArrayList of Vehicles that match the search.
-	 */
-	public List<Vehicle> oppositeSearch(SearchParameter sp)
-	{
-		List<Vehicle> results = new ArrayList<Vehicle>();
-		List<Vehicle> oppositeResults = search(sp);
-		for (int i = 0; i < vehicleList.size(); i++)
-		{
-			for (int j = 0; j < oppositeResults.size(); i++)
-			{
-				if (!oppositeResults.get(j).getVIN().trim().equalsIgnoreCase(vehicleList.get(i).getVIN().trim()))
-				{
-					results.add(vehicleList.get(i));
-				}
-			}
-		}
-		return results;
-	}
-
-	/**
-	 * Searches the database for Vehicles that match the SearchParameters in the given list.
-	 * @param spList the ArrayList of SearchParameters to be searched for.
-	 * @return results the ArrayList of Vehicles that match the search.
-	 */
-	public List<Vehicle> searchMultiple(ArrayList<SearchParameter> spList)
-	{
-		List<Vehicle> results = new ArrayList<Vehicle>();
-		List<Vehicle> results2 = new ArrayList<Vehicle>();
-		results = getAll();
-		for (int i = 0; i < spList.size(); i++)
-		{
-			results2 = results;
-			VehicleDatabase temp = new VehicleDatabase();
-			temp.load(results2);
-			results = temp.search(spList.get(i));
-		}
-		return results;
+		CriteriaBuilder cBuilder = em.getCriteriaBuilder();
+		CriteriaQuery<Vehicle> cQuery = cBuilder.createQuery(Vehicle.class);
+		cQuery.select(cQuery.from(Vehicle.class));
+		cQuery.where(restrictions);
+		TypedQuery<Vehicle> tQuery = em.createQuery(cQuery);
+		return tQuery.getResultList();
 	}
 	
 	/**
