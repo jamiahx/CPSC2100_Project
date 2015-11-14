@@ -24,6 +24,7 @@
 
 package edu.utc._2015cpsc2100.ejkk;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -31,6 +32,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 
 
 /**
@@ -42,13 +44,14 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Reservation
 {	
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date pickUpDate;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dropOffDate;
     @ManyToOne(cascade=CascadeType.ALL)
     private Vehicle vehicle;
     private User customer;
     private CreditCard card;
-    private int reservationDates;
     private double price;
     @Id
     private String resID;
@@ -63,7 +66,10 @@ public class Reservation
     }
     public User getCustomer() { return customer; }
     public CreditCard getCreditCardInfo() { return card; }
-    public int getReservationDates() { return reservationDates; }
+    public Duration getDuration()
+    {
+    	return Duration.between(pickUpDate.toInstant(), dropOffDate.toInstant());
+    }
     public double getPrice() { return price; }
     public String getResID() {return resID; }
     
