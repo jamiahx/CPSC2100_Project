@@ -44,6 +44,8 @@ import javax.persistence.Temporal;
 @Entity
 public class Reservation
 {	
+    @Id
+    private String resID;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date pickUpDate;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -53,8 +55,6 @@ public class Reservation
     private User customer;
     private CreditCard card;
     private double price;
-    @Id
-    private String resID;
     private boolean canceled;
 	
     public Date getPickUpDate() { return pickUpDate; }
