@@ -55,6 +55,12 @@
        <artifactId>hibernate-entitymanager</artifactId>
        <version>5.0.2.Final</version>
     </dependency>
+    <dependency>
+    	<groupId>javax.ejb</groupId>
+    	<artifactId>ejb-api</artifactId>
+    	<version>3.1</version>
+    	<scope>provided</scope>
+    </dependency>
   </dependencies>
   <scm>
     <connection>scm:git:https://github.com/jamiahx/CPSC2100_ORS.git</connection>
