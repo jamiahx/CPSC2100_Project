@@ -24,9 +24,8 @@
 
 package edu.utc._2015cpsc2100.ejkk;
 
-import javax.annotation.security.*;
-import javax.ejb.*;
-
+import javax.annotation.security.DeclareRoles;
+import javax.ejb.Stateless;
 
 /**
  * 
