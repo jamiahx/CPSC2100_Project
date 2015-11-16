@@ -55,6 +55,12 @@
       <artifactId>hibernate-jpa-2.1-api</artifactId>
       <version>1.0.0.Final</version>
     </dependency>
+    <dependency>
+    	<groupId>javax.ejb</groupId>
+    	<artifactId>javax.ejb-api</artifactId>
+    	<version>3.2</version>
+    	<scope>provided</scope>
+    </dependency>
   </dependencies>
   <scm>
     <connection>scm:git:https://github.com/jamiahx/CPSC2100_ORS.git</connection>
