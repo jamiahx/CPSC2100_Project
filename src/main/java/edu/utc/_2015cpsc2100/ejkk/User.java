@@ -1,5 +1,5 @@
 /**
- * Copyright 2015 Emma Perez, Jeremiah Gaertner, Kate Siprelle, Kaleb Sanchez
+  * Copyright 2015 Emma Perez, Jeremiah Gaertner, Kate Siprelle, Kaleb Sanchez
  * emma11.gene@gmail.com
  * jamiahx@gmail.com
  * kalebsanchez23@yahoo.com
@@ -24,9 +24,15 @@
 
 package edu.utc._2015cpsc2100.ejkk;
 
+import java.awt.FlowLayout;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import com.microtripit.mandrillapp.lutung.MandrillApi;
 import com.microtripit.mandrillapp.lutung.model.MandrillApiError;
@@ -178,28 +184,80 @@ public class User
 	public String advancedSearch() throws MandrillApiError, IOException
 	{
 		String answer = "";
-		String pickUpDate;
-		String dropOffDate;
+		//String pickUpDate;
+		//String dropOffDate;
 		
-		while (true)
-		{
-			System.out.println("Enter your pick-up date. Example: 7/6/2015");
-			pickUpDate = s.next();
-			System.out.println("Enter your drop-off date.");
-			dropOffDate = s.next();
-			
-			boolean b1 = Date.fromShortString(pickUpDate).isBefore(Date.fromShortString(dropOffDate));
-			boolean b2 = Date.fromShortString(pickUpDate).checkTimeTravel();
-			
-			if (b1 && !b2) { break; }
-			else { System.out.println("Invalid response."); }
+		JFrame adSearch = new JFrame();
+		adSearch.setSize(400, 600);
+		adSearch.setLocationRelativeTo(null);
+		adSearch.setLayout(new FlowLayout());
+		
+		final int TEXT_FIELD_SIZE = 20;
+		final JTextField pickupDate = new JTextField(TEXT_FIELD_SIZE);
+		adSearch.add(pickupDate);
+		pickupDate.setText("Enter your pick-up date.");
+		pickupDate.setToolTipText("Example: 7/6/2015");
+		String strPickupDate = pickupDate.getText();
+		
+		final JTextField dropOffDate = new JTextField(TEXT_FIELD_SIZE);
+		adSearch.add(dropOffDate);
+		dropOffDate.setText("Enter your drop-off date.");
+		dropOffDate.setToolTipText("Example: 7/8/2015");
+		String strDropDate = dropOffDate.getText();
+		
+		boolean b1 = Date.fromShortString(strPickupDate).isBefore(Date.fromShortString(strDropDate));
+		boolean b2 = Date.fromShortString(strPickupDate).checkTimeTravel();
+		
+		if (b1 && !b2){  }
+		else 
+		{ 
+			JOptionPane.showMessageDialog( null, "Invalid response.",
+					"Warning", JOptionPane.ERROR_MESSAGE);
 		}
 		
-		String make = "";
-		String model = "";
-		String year = "";
-		String category = "";
-		String rate = "";
+//		while (true)
+//		{
+			//System.out.println("Enter your pick-up date. Example: 7/6/2015");
+			//pickUpDate = s.next();
+			//System.out.println("Enter your drop-off date.");
+			//dropOffDate = s.next();
+			
+			//boolean b1 = Date.fromShortString(pickUpDate).isBefore(Date.fromShortString(dropOffDate));
+			//boolean b2 = Date.fromShortString(pickUpDate).checkTimeTravel();
+			
+//			if (b1 && !b2) { break; }
+//			else { System.out.println("Invalid response."); }
+//		}
+		final JTextField make = new JTextField(TEXT_FIELD_SIZE);
+		adSearch.add(make);
+		make.setText("Enter make");
+		String strMake = make.getText();
+		
+		final JTextField model = new JTextField(TEXT_FIELD_SIZE);
+		adSearch.add(model);
+		model.setText("Enter model");
+		String strModel = model.getText();
+		
+		final JTextField year = new JTextField(TEXT_FIELD_SIZE);
+		adSearch.add(year);
+		year.setText("Enter year");
+		String strYear = year.getText();
+		
+		final JTextField category = new JTextField(TEXT_FIELD_SIZE);
+		adSearch.add(category);
+		category.setText("Enter category");
+		String strCategory = category.getText();
+		
+		final JTextField rate = new JTextField(TEXT_FIELD_SIZE);
+		adSearch.add(rate);
+		rate.setText("Enter rate");
+		String strRate = rate.getText();
+		
+		//String make = "";
+		//String model = "";
+		//String year = "";
+		//String category = "";
+		//String rate = "";
 		
 		String answer1 = "";
 		
@@ -364,32 +422,46 @@ public class User
 	 */
 	public String searchProcessing(ArrayList<Vehicle> results, String pickUpDate, String dropOffDate) throws MandrillApiError, IOException
 	{
+		JFrame search = new JFrame();
+		search.setSize(400, 600);
+		search.setLocationRelativeTo(null);
+		search.setLayout(new FlowLayout());
+		
 		String answer = "";
 		if (results.size() == 0) //NO SEARCH RESULTS FOUND
 		{
-			System.out.println("No vehicles match your search.");
+			JOptionPane.showMessageDialog( null, "No vehicles match your search",
+					"Warning", JOptionPane.ERROR_MESSAGE);
+			//System.out.println("No vehicles match your search.");
 			answer = "0";
 		}
 		else //SEARCH RESULTS FOUND
 		{
 			while (true)
 			{
-				System.out.println("Available vehicles: ");
+				// System.out.println("Available vehicles: ");
+				JLabel label = new JLabel("Available vehicles");
 				for (int i = 0; i < results.size(); i++)
 				{
-					System.out.println("(" + (i+1) + ") " + results.get(i).toShortString());
+					//System.out.println("(" + (i+1) + ") " + results.get(i).toShortString());
+					JLabel label2 = new JLabel("(" + (i+1) + ")" + results.get(i).toShortString());
 				}
-				System.out.println("Enter a number to view a vehicle or \n(0) To go back");
-				String option = s.next();
+				//System.out.println("Enter a number to view a vehicle or \n(0) To go back");
+				//String option = s.next();
+				final int TEXT_FIELD_SIZE = 20;
+				final JTextField option = new JTextField(TEXT_FIELD_SIZE);
+				search.add(option);
+				option.setText("Enter a number to number to view a vehicle?");
+				String strOption = option.getText();
 				
-				if (option.equals("0")) //GO BACK OPTION
+				if (strOption.equals("0")) //GO BACK OPTION
 				{
 					answer = "0";
 					break;
 				}
-				else if (Integer.valueOf(option) <= results.size())//CAR SELECTED OPTION
+				else if (Integer.valueOf(strOption) <= results.size())//CAR SELECTED OPTION
 				{
-					Vehicle selectedVehicle = selectVehicle(results, option);
+					Vehicle selectedVehicle = selectVehicle(results, strOption);
 					String option2;
 					
 					while (true)
@@ -481,6 +553,7 @@ public class User
 				else { System.out.println("Invalid response."); }
 			}
 		}
+		search.setVisible(true);
 		return answer;
 	}
 	
@@ -532,6 +605,10 @@ public class User
 		ReservationDatabase.Session.addReservation(r);
 		rentalRecord.add(r);
 		card.bill(Double.valueOf(getQuote(vehicle, pickUpDate, dropOffDate).substring(1)));
+		
+		JOptionPane.showMessageDialog( null,"Your vehicle has been reserved. You will be sent an email containing your confirmation number",
+				"Thank, you", JOptionPane.INFORMATION_MESSAGE);
+	
 		System.out.println("Your vehicle has been reserved. You will be sent an email containing your confirmation number.");
 		
 		MandrillApi mandrillApi = new MandrillApi("eoYBAgIUJLYb1A5LAQb3RA");

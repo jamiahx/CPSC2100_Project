@@ -25,6 +25,7 @@
 package edu.utc._2015cpsc2100.ejkk;
 
 import java.awt.FlowLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
@@ -35,6 +36,7 @@ import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -68,7 +70,7 @@ public class MainTester
 		String answer = "0";
 		
 		RegistrationForm rf = new RegistrationForm(null, null, null, null, null, null, null);
-		User u = new User(rf);
+		final User u = new User(rf);
 		
 		//while(! answer.equalsIgnoreCase("Q"))
 //		while(true)
@@ -99,7 +101,7 @@ public class MainTester
 //				else //NOT LOGGED IN OPTIONS
 				
 					JFrame frame1 = new JFrame();
-					frame1.setSize(400, 600);
+					frame1.setSize(400,600);
 					frame1.setLocationRelativeTo(null);
 					frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					frame1.setLayout(new FlowLayout());
@@ -115,13 +117,6 @@ public class MainTester
 					JButton quit = new JButton("Quit");
 					frame1.add(quit);
 					frame1.setVisible(true);
-					//System.out.println("(1) Login");
-					//System.out.println("(2) Create Account");
-					//System.out.println("(3) Basic Search");
-					//System.out.println("(4) Advanced Search");
-					//System.out.println("(Q) Quit");
-					
-					//answer = s.next();
 					
 					//Login Process
 					login.addActionListener(new ActionListener(){
@@ -155,24 +150,26 @@ public class MainTester
 								
 							if (User.login(strUsername, strPassword) != null)
 								{
-									u = User.login(strUsername, strPassword);
+									User u2 = new User(rf);
+									u2 = User.login(strUsername, strPassword);
 									if (u.getRole().equalsIgnoreCase("Customer"))
 									{
-										u = (Customer) u;
+										u2 = (Customer) u;
 										//answer = "0";
 									}
 									if (u.getRole().equalsIgnoreCase("Employee"))
 									{
-										u = (Employee) u;
+										u2 = (Employee) u;
 										//answer = "5";
 									}
 									if (u.getRole().equalsIgnoreCase("Manager"))
 									{
-										u = (Manager) u;
+										u2 = (Manager) u;
 										//answer = "6";
 									}
 									else if (loginAttempts < 2)
 										{
+											
 											loginAttempts++;
 											while (true)
 											{
@@ -181,12 +178,7 @@ public class MainTester
 												JButton createNew = new JButton("Create new account");
 												loginFrame.add(tryAgain);
 												loginFrame.add(createNew);
-												//System.out.println("Username or password is incorrect.");
-												//System.out.println("(1) Login again");
-												//System.out.println("(2) Create new account");
-												
-												//answer = s.next();
-												
+																							
 												if (answer.equals("1") || answer.equals("2")) { break; }
 												else { System.out.println("Invalid response."); }
 											}
@@ -198,15 +190,11 @@ public class MainTester
 												System.out.println("Login terminated.");
 												System.out.println("(1) Create a new account");
 												System.out.println("(2) Go back");
-												
-							
-							
+
 						}
 					}
 							
 }
-					
-					
 	}
 					});
 					create.addActionListener(new ActionListener(){
@@ -218,7 +206,7 @@ public class MainTester
 							JFrame createAcc = new JFrame();
 							frame1.setVisible(false);
 							
-							createAcc.setSize(400, 600);
+							createAcc.setSize(300,600);
 							createAcc.setLocationRelativeTo(null);
 							createAcc.setLayout(new FlowLayout());
 							
@@ -289,6 +277,8 @@ public class MainTester
 									RegistrationForm newForm = new RegistrationForm(strFirstName, strLastName, strAddress, strEmail, strPhone, strUsername, strPassword);
 									User.createAccount("Customer", newForm);
 									JOptionPane.showMessageDialog( null, "Your account has been created", ":)", JOptionPane.INFORMATION_MESSAGE);
+									frame1.setVisible(true);
+									createAcc.setVisible(false);
 									//System.out.println("Your account has been created.");
 									//answer = "0";
 							}
@@ -324,6 +314,7 @@ public class MainTester
 												
 										}
 									}
+									
 										
 							}
 								}
@@ -338,8 +329,314 @@ public class MainTester
 		
 	
 });
-					}
+					bSearch.addActionListener(new ActionListener(){
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							
+							
+						
+						}
+						
+					});
+					
+					aSearch.addActionListener(new ActionListener() {
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							
+							
+						}
+						
+					});
+					if (answer.equals("5") && (u.getRole().equalsIgnoreCase("Employee") || u.getRole().equalsIgnoreCase("Manager"))) //EMPLOYEE POST-LOGIN OPTIONS
+						{
+							JFrame empFrame = new JFrame();
+							empFrame.setSize(400,600);
+							empFrame.setLocationRelativeTo(null);
+							empFrame.setLayout(new FlowLayout());
+							
+							JButton vehicle = new JButton("Register a vehicle");
+							empFrame.add(vehicle);
+							
+							JButton vehicleSearch = new JButton("Search and update a vehicle");
+							empFrame.add(vehicleSearch);
+							
+							JButton userSearch = new JButton("Search for a user");
+							empFrame.add(userSearch);
+							
+							JButton reservation = new JButton("Search and update a reservation");
+							empFrame.add(reservation);
+							
+							JButton customer = new JButton("Access customer options");
+							empFrame.add(customer);
+							
+							JButton quit2 = new JButton("Quit");
+							empFrame.add(quit2);
+			
+							//System.out.println("(6) To access manager options");
+							if (u.getRole().equalsIgnoreCase("Manager")) { 
+								JButton manager = new JButton("Access manager options");
+								empFrame.add(manager);																
+							}
+			
+							//if (answer1.equals("1")) { ((Employee) u).registerVehicle(); }
+							vehicle.addActionListener(new ActionListener(){								
+								
+								public void actionPerformed(ActionEvent e) {
+									((Employee) u).registerVehicle();																
+								}
+																
+							});
+
+							//else if (answer1.equals("2")) { ((Employee) u).searchVehicles(); }
+							vehicleSearch.addActionListener(new ActionListener(){
+
+								public void actionPerformed(ActionEvent e) {
+									((Employee) u).searchVehicles();
+									
+								}								
+								
+							});
+							
+							//else if (answer1.equals("3")) { ((Employee) u).searchUsers(); }
+							userSearch.addActionListener(new ActionListener(){
+
+								public void actionPerformed(ActionEvent e) {
+									((Employee) u).searchUsers();
+									
+								}
+								
+							});
+							
+							//else if (answer1.equals("4"))
+							reservation.addActionListener(new ActionListener(){
+
+								public void actionPerformed(ActionEvent e) {
+									Reservation selectedReservation = ((Employee) u).searchReservations();
+								
+										JFrame reservationFrame = new JFrame();
+										reservationFrame.setSize(400, 600);
+										reservationFrame.setLocationRelativeTo(null);
+										reservationFrame.setLayout(new FlowLayout());
+										
+										JButton upReservation = new JButton("Update this reservation");
+										reservationFrame.add(upReservation);
+										
+										JButton goBack = new JButton("Go back to employee options");
+										reservationFrame.add(goBack);
+										
+										goBack.addActionListener(new ActionListener(){
+
+											public void actionPerformed(ActionEvent e) {
+												empFrame.setVisible(true);
+												reservationFrame.setVisible(false);																								
+											}
+											
+										});
+										
+										upReservation.addActionListener(new ActionListener(){
+
+											@Override
+											public void actionPerformed(ActionEvent e) {
+												((Employee) u).updateReservation(selectedReservation);
+												
+											}																						
+										});
+										
+										
+										
+									empFrame.setVisible(true);
+								}
+								
+								
+							});
+					
+							//else if (answer1.equals("5")) { answer = "0"; }
+							customer.addActionListener(new ActionListener()
+							{
+								public void actionPerformed(ActionEvent e) 
+								{
+									frame1.setVisible(true);
+									empFrame.setVisible(false);
+									
+								}
+								
+								
+							});
+							
+							//" are you sure you want to quit?" warning page
+							quit2.addActionListener(new ActionListener(){
+
+								public void actionPerformed(ActionEvent e) {	
+									empFrame.setVisible(false);
+									
+									JFrame quitFrame = new JFrame();
+									quitFrame.setSize(200, 200);
+									quitFrame.setLayout(new FlowLayout());
+									
+									JLabel label = new JLabel("Are you sure you want to quit");
+									quitFrame.add(label);
+				
+									JButton no = new JButton("NO");
+									quitFrame.add(no);
+									
+									JButton yes = new JButton("Yes");
+									quitFrame.add(yes);
+									
+									no.addActionListener(new ActionListener(){
+
+										public void actionPerformed(ActionEvent e) {
+											quitFrame.dispose();
+											empFrame.setVisible(true);																						
+										}
+										
+									});
+									yes.addActionListener(new ActionListener(){
+
+										@Override
+										public void actionPerformed(ActionEvent e) {
+											quitFrame.dispose();
+											
+										}
+																				
+									});
+									
+									quitFrame.setVisible(true);
+									
+									empFrame.dispose();
+								}
+								
+								
+							});
+							
+						}
+					
+	}
 }
+//							else if (answer1.equals("6") && u.getRole().equalsIgnoreCase("Manager")) { answer = "6"; }
+//							else if (answer1.equalsIgnoreCase("Q")) { break; }
+//							else { System.out.println("Invalid response."); }
+//						}
+//						else if (answer.equals("6") && u.getRole().equalsIgnoreCase("Manager")) //MANAGER POST-LOGIN OPTIONS
+//						{
+//							System.out.println("(1) To create an account");
+//							System.out.println("(2) To update or delete an existing account");
+//							System.out.println("(3) To update or cancel a reservation");
+//							System.out.println("(4) To access employee options");
+//							System.out.println("(5) To access customer options");
+//							System.out.println("(Q) Quit");
+//							
+//							String answer1 = s.next();
+//							
+//							if (answer1.equals("1"))
+//							{
+//								((Manager) u).createAccount();
+//							}
+//							else if (answer1.equals("2"))
+//							{
+//								User selectedUser = ((Employee) u).searchUsers();
+//								while (selectedUser != null)
+//								{
+//									System.out.println("(1) To update this account");
+//									System.out.println("(2) To delete this account");
+//									System.out.println("(3) To go back to manager options");
+//									
+//									String answer2 = s.next();
+//									
+//									if (answer2.equals("1"))
+//									{
+//										((Manager) u).updateAccount(selectedUser);
+//										break;
+//									}
+//									else if (answer2.equals("2"))
+//									{
+//										((Manager) u).deleteAccount(selectedUser);
+//										break;
+//									}
+//									else if (answer2.equals("3")) { break; }
+//									else { System.out.println("Invalid response."); }
+//								}
+//							}
+//							else if (answer1.equals("3"))
+//							{
+//								Reservation selectedReservation = ((Employee) u).searchReservations();
+//								while (selectedReservation != null)
+//								{
+//									System.out.println("(1) To update this reservation");
+//									System.out.println("(2) To cancel this reservation");
+//									System.out.println("(3) To go back to manager options");
+//									
+//									String answer2 = s.next();
+//									
+//									if (answer2.equals("1"))
+//									{
+//										((Employee) u).updateReservation(selectedReservation);
+//										break;
+//									}
+//									else if (answer2.equals("2"))
+//									{
+//										((Manager) u).cancelReservation(selectedReservation);
+//										break;
+//									}
+//									else if (answer2.equals("3")) { break; }
+//									else { System.out.println("Invalid response."); }
+//								}
+//							}
+//							else if (answer1.equals("4"))
+//							{
+//								answer = "5";
+//							}
+//							else if (answer1.equals("5"))
+//							{
+//								answer = "0";
+//							}
+//							else if (answer1.equalsIgnoreCase("Q")) { break; }
+//							else { System.out.println("Invalid response."); }
+//						}
+//					}
+//					
+//					try
+//					{
+//						udb.save();
+//					} catch (FileNotFoundException e)
+//					{
+//						System.out.println("No User Database file found. Writing to new file.");
+//					}
+//					try
+//					{
+//						vdb.save();
+//					} catch (FileNotFoundException e)
+//					{
+//						System.out.println("No Vehicle Database file found. Writing to new file.");
+//					}
+//					try
+//					{
+//						rdb.save();
+//					} catch (FileNotFoundException e)
+//					{
+//						System.out.println("No Reservation Database file found. Writing to new file.");
+//					}
+//				}
+//			}
+//	}
+//}
+					
+					
+					/////////////////////////////
+					
+					
+//					 if (answer.equals("3")) //BASIC SEARCH PROCESS
+//						{
+//							answer = u.basicSearch();
+//							
+//						}
+//						else if (answer.equals("4")) //ADVANCED SEARCH PROCESS
+//						{
+//							answer = u.advancedSearch();
+//						}
+//					}
+//}
 
 
 
