@@ -50,6 +50,17 @@
     	<artifactId>lutung</artifactId>
     	<version>0.0.6</version>
     </dependency>
+    <dependency>
+       <groupId>org.hibernate</groupId>
+       <artifactId>hibernate-entitymanager</artifactId>
+       <version>5.0.2.Final</version>
+    </dependency>
+    <dependency>
+    	<groupId>javax.ejb</groupId>
+    	<artifactId>javax.ejb-api</artifactId>
+    	<version>3.2</version>
+    	<scope>provided</scope>
+    </dependency>
   </dependencies>
   <scm>
     <connection>scm:git:https://github.com/jamiahx/CPSC2100_ORS.git</connection>
