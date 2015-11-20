@@ -85,7 +85,6 @@ public class Reservation
     public void setPickUpDate(Date d)
     {
     	pickUpDate = d;
-    	reservationDates = pickUpDate.daysUntil(dropOffDate);
     }
     
     /**
@@ -95,7 +94,6 @@ public class Reservation
     public void setDropOffDate(Date d)
     {
     	dropOffDate = d;
-    	reservationDates = pickUpDate.daysUntil(dropOffDate);
     }
     
     /**
@@ -137,8 +135,7 @@ public class Reservation
 		this.vehicle = vehicle;
 		this.customer = customer;
 		this.card = card;
-		reservationDates = pickUpDate.daysUntil(dropOffDate);
-		price = vehicle.getRate() * reservationDates;
+		price = vehicle.getRate() * getDuration().toHours();
 		
 		String baseResID = customer.getUsername() + vehicle.getVIN();
 		resID = baseResID;
