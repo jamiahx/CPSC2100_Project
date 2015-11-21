@@ -45,5 +45,20 @@ public class ParticularDuration implements Serializable {
 	{
 		return Duration.between(startTime.toInstant(), endTime.toInstant());
 	}
+	
+	public boolean endsBefore(ParticularDuration other)
+	{
+		return this.getEndTime().before(other.getStartTime());
+	}
+	
+	public boolean startsAfter(ParticularDuration other)
+	{
+		return this.getStartTime().after(other.getEndTime());
+	}
+	
+	public boolean isOverlapping(ParticularDuration other)
+	{
+		return this.endsBefore(other) ^ this.startsAfter(other);
+	}
    
 }
