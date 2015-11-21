@@ -46,10 +46,7 @@ public class Reservation
 {	
     @Id
     private String resID;
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date pickUpDate;
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date dropOffDate;
+    private ParticularDuration duration;
     @ManyToOne(cascade=CascadeType.ALL)
     private Vehicle vehicle;
     private User customer;
@@ -57,8 +54,8 @@ public class Reservation
     private double price;
     private boolean canceled;
 	
-    public Date getPickUpDate() { return pickUpDate; }
-    public Date getDropOffDate() { return dropOffDate; }
+    public Date getPickUpDate() { return duration.getStartTime(); }
+    public Date getDropOffDate() { return duration.getEndTime(); }
     public Vehicle getVehicle()
     {
     	if (vehicle != null) { return vehicle; }
@@ -68,7 +65,7 @@ public class Reservation
     public CreditCard getCreditCardInfo() { return card; }
     public Duration getDuration()
     {
-    	return Duration.between(pickUpDate.toInstant(), dropOffDate.toInstant());
+    	return duration.getDuration();
     }
     public double getPrice() { return price; }
     public String getResID() {return resID; }
@@ -84,7 +81,7 @@ public class Reservation
      */
     public void setPickUpDate(Date d)
     {
-    	pickUpDate = d;
+    	duration.setStartTime(d);
     }
     
     /**
@@ -93,7 +90,7 @@ public class Reservation
      */
     public void setDropOffDate(Date d)
     {
-    	dropOffDate = d;
+    	duration.setEndTime(d);
     }
     
     /**
@@ -130,8 +127,7 @@ public class Reservation
      */
     public Reservation(Date pickUp, Date dropOff, Vehicle vehicle, User customer, CreditCard card)
     {
-		pickUpDate = pickUp;
-		dropOffDate = dropOff;
+    	duration = new ParticularDuration(pickUp, dropOff);
 		this.vehicle = vehicle;
 		this.customer = customer;
 		this.card = card;
