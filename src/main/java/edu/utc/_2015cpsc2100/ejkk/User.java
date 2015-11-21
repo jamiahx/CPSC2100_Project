@@ -169,7 +169,7 @@ public class User
 			else { System.out.println("Invalid response."); }
 		}
 		
-		ArrayList<Vehicle> results = ReservationDatabase.Session.basicVehicleAvailabilitySearch(pickUpDate, dropOffDate);
+		ArrayList<Vehicle> results = ReservationDatabase.Session.vehicleAvailabilitySearch(pickUpDate, dropOffDate);
 		
 		answer = searchProcessing(results, pickUpDate, dropOffDate);
 		return answer;
@@ -387,7 +387,7 @@ public class User
 		if (! category.equals("")) { spList.add(new SearchParameter("category", category)); }
 		
 		VehicleDatabase tempDatabase = new VehicleDatabase();
-		tempDatabase.load(ReservationDatabase.Session.basicVehicleAvailabilitySearch(pickUpDate, dropOffDate));
+		tempDatabase.load(ReservationDatabase.Session.vehicleAvailabilitySearch(pickUpDate, dropOffDate));
 		ArrayList<Vehicle> resultList = tempDatabase.searchMultiple(spList);
 		
 		ArrayList<Vehicle> resultList2 = new ArrayList<Vehicle>();

@@ -384,7 +384,7 @@ public class SearchCLI implements SearchViewRemote, SearchViewLocal {
 				while(true)
 				{
 					System.out.println("Available vehicles: ");
-					ArrayList<Vehicle> results = ReservationDatabase.Session.basicVehicleAvailabilitySearch(pickUpDate, dropOffDate);
+					ArrayList<Vehicle> results = ReservationDatabase.Session.vehicleAvailabilitySearch(pickUpDate, dropOffDate);
 					for (int i = 0; i < results.size(); i++)
 					{
 						System.out.println("(" + (i+1) + ") " + results.get(i).toShortString());

@@ -25,14 +25,15 @@
 package edu.utc._2015cpsc2100.ejkk;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
+import javax.persistence.Transient;
 
 
 /**
@@ -45,11 +46,14 @@ import javax.persistence.Temporal;
 public class Reservation
 {	
     @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private String resID;
     private ParticularDuration duration;
     @ManyToOne(cascade=CascadeType.ALL)
     private Vehicle vehicle;
+    @Transient
     private User customer;
+    @Transient
     private CreditCard card;
     private double price;
     private boolean canceled;
@@ -132,26 +136,6 @@ public class Reservation
 		this.customer = customer;
 		this.card = card;
 		price = vehicle.getRate() * getDuration().toHours();
-		
-		String baseResID = customer.getUsername() + vehicle.getVIN();
-		resID = baseResID;
-		SearchParameter sp = new SearchParameter("resID", resID);
-		int i = 1;
-		boolean b = true;
-		while(b)
-		{
-			if (ReservationDatabase.Session.search(sp).size() != 0)
-			{
-				resID = baseResID + i;
-				sp = new SearchParameter("resID", resID);
-				i++;
-			}
-			else
-			{
-				b = false;
-			}
-		}
-		
 		canceled = false;
 
     }
@@ -171,68 +155,13 @@ public class Reservation
 		{
 			c = "Reservation: " + resID;
 		}
-		s = c + "\n    Dates: " +  pickUpDate.toShortString() + " - " + dropOffDate.toShortString() + "\n" +
+		s = c + "\n    Dates: " +  duration.toString() + "\n" +
 		    "    Vehicle: " + vehicle.toString() + "\n" +
 		    "    Customer: " + customer.getFirstName() + " " + customer.getLastName() + "\n" +
 		    "    Total Price: $" + price;
 		return s;
     }
-    
-    /**
-     * Creates a String that represents this Reservation for storage on the database text files
-     * @return s the String that represents the reservation
-     */
-    public String toStorageString()
-    {
-    	String s = "";
-    	s = s + pickUpDate.toShortString() + ", " + dropOffDate.toShortString() + ", " + vehicle.getVIN() +
-    			", " + customer.getUsername() + ", " + card.toStorageString() ;
-    	return s;
-    }
-    
-    
-    /**
-     * Creates a new instance of Reservation from the given storage String.
-     * @param r	the String representing the reservation.
-     * @return reservation	the Reservation object that is translated from the String.
-     */
-    public static Reservation fromStorageString(String r)
-    {
-    	Reservation reservation = null;
-    	Date pickUp;
-    	Date dropOff;
-    	Vehicle vehicle;
-    	Customer customer;
-    	CreditCard card;
-    	
-    	int comma = r.indexOf(",");
-    	int comma2 = r.indexOf(",", comma + 1);
-    	int comma3 = r.indexOf(",", comma2 + 1);
-    	int comma4 = r.indexOf(",", comma3 + 1);
-    	
-    	pickUp = Date.fromShortString(r.substring(0, comma));
-    	dropOff = Date.fromShortString(r.substring(comma + 2, comma2));
-    	SearchParameter sp = new SearchParameter("vin", r.substring(comma2 + 2, comma3));
-    	ArrayList<Vehicle> result = VehicleDatabase.Session.search(sp);
-    	if (result.size() == 0)
-    	{
-    		vehicle = null;
-    	}
-    	else
-    	{
-    		vehicle = VehicleDatabase.Session.search(sp).get(0);
-    	}
-    	sp = new SearchParameter("username", r.substring(comma3 + 2, comma4));
-    	customer = (Customer) UserDatabase.Session.search(sp).get(0);
-    	card = CreditCard.fromStorageString(r.substring(comma4 + 2));
-    	if ( pickUp != null && dropOff != null && customer != null && card != null)
-    	{
-    		reservation = new Reservation(pickUp, dropOff, vehicle, customer, card);
-    		customer.addToRecord(reservation);
-    	}
-    	return reservation;
-    }
-    
+
     /**
      * Prints this Reservation
      */
